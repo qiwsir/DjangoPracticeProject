@@ -17,7 +17,7 @@ class UserForm(forms.ModelForm):
         return cd['password2']
 
 
-class UserProfileForm(ModelForm):
+class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
 
