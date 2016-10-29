@@ -6,7 +6,12 @@
 
 {% block content %}
 <div class="row text-center vertical-middle-sm">
-    <h1>{{ user_form }}</h1>
+    <h1>Sign in Please</h1>
+    <form class="form-horizontal" action="." method="post">{% csrf_token %}
+        {{ user_form.as_table}}
+        {{ userprofile_form.as_table }}
+        <input type="submit" value="ok">
+    </form>
 </div>
 {% endblock %}
 
