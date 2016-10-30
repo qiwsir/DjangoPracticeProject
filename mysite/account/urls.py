@@ -3,7 +3,9 @@ from . import views
 
 from django.conf import settings
 
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
-    url(r'^$', views.user_login, name="user_login"),
-#    url(r'(?P<article_id>\d)/$', views.blog_article, name="blog_detail"),
+    #url(r'^login/$', views.user_login, name="user_login"),    #custom login
+    url(r'^login/$', auth_views.login, name='user_login'),     #django login
 ]
