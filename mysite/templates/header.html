@@ -12,7 +12,12 @@
                 <li><a href="http://www.itdiffer.com">Linux</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
-                <li><a href="{% url 'account:user_login' %}">LOGIN</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="#">{{ user.username }}</a></li>
+                <li><a href="{% url 'account:user_logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'account:user_login' %}">Login</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
