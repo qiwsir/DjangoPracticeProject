@@ -9,4 +9,5 @@ urlpatterns = [
     #url(r'^login/$', views.user_login, name="user_login"),    #custom login
     url(r'^login/$', auth_views.login, name='user_login'),     #django login
     url(r'^logout/$', auth_views.logout, name='user_logout'),
+    url(r'^register/$', views.register, name="user_register"),
 ]
