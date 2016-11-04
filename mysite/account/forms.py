@@ -24,4 +24,4 @@ class RegistrationForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = "__all__"
+        fields = ("phone", "birth")  
