@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -39,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'account',
+    'django.contrib.admin',
+    'password_reset',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,11 @@ STATICFILES_DIRS = (
 #)
 
 LOGIN_REDIRECT_URL = '/blog/'
+
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST_USER = "your_count@qq.com"
+EMAIL_HOST_PASSWORD = "your_count_password"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "your_count@qq.com"
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

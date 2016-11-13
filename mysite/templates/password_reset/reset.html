@@ -1,0 +1,14 @@
+{% extends "password_reset/base.html" %}{% load i18n %}
+
+{% block content %}
+	{% if invalid %}{% url "password_reset_recover" as recovery_url %}
+		<p>{% blocktrans %}Sorry, this password reset link is invalid. You can still <a href="{{ recovery_url }}">request a new one</a>.{% endblocktrans %}</p>
+	{% else %}
+		<p>{% blocktrans %}Hi, <strong>{{ username }}</strong>. Please choose your new password.{% endblocktrans %}</p>
+		<form method="post" action="{% url "password_reset_reset" token %}">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<p><input type="submit" value="{% trans "Set new password" %}"></p>
+		</form>
+	{% endif %}
+{% endblock %}

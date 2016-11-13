@@ -1,0 +1,9 @@
+{% load i18n %}{% blocktrans %}Dear {{ username }},{% endblocktrans %}
+
+{% blocktrans with domain=site.domain %}You -- or someone pretending to be you -- has requested a password reset on {{ domain }}.{% endblocktrans %}
+
+{% trans "You can set your new password by following this link:" %}
+
+http{% if secure %}s{% endif %}://{{ site.domain }}{% url "password_reset_reset" token %}
+
+{% trans "If you don't want to reset your password, simply ignore this email and it will stay unchanged." %}
