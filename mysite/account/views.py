@@ -36,6 +36,7 @@ def register(request):
             new_profile = userprofile_form.save(commit=False)
             new_profile.user = new_user
             new_profile.save()
+            UserInfo.objects.create(user=new_user)
             return HttpResponse("successfully")
         else:
             return HttpResponse("sorry, your can not register.")
@@ -48,8 +49,5 @@ def register(request):
 def myself(request):
     user = User.objects.get(username=request.user.username)
     userprofile = UserProfile.objects.get(user_id=user.id)
-    try:
-        userinfo = UserInfo.objects.get(user_id=user.id)
-    except:
-        userinfo = {}
+    userinfo = UserInfo.objects.get(user_id=user.id)
     return render(request, "account/myself.html", {"user":user, "userinfo":userinfo, "userprofile":userprofile})
