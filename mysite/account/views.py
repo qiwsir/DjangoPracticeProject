@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, RegistrationForm, UserProfileForm
+from .forms import LoginForm, RegistrationForm, UserProfileForm, UserInfoForm, UserForm
 
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile, UserInfo
@@ -51,3 +51,19 @@ def myself(request):
     userprofile = UserProfile.objects.get(user_id=user.id)
     userinfo = UserInfo.objects.get(user_id=user.id)
     return render(request, "account/myself.html", {"user":user, "userinfo":userinfo, "userprofile":userprofile})
+
+@login_required(login_url='/account/login/')
+def myself_edit(request):
+    user = User.objects.get(username=request.user.username)
+    userprofile = UserProfile.objects.get(user_id=request.user.id)
+    userinfo = UserInfo.objects.get(user_id=request.user.id)
+
+    if request.method == "POST":
+        pass
+    else:
+        print(request.user.id)
+        user_form = UserForm(instance=request.user)
+        userprofile_form = UserProfileForm(initial={"birth":userprofile.birth, "phone":userprofile.phone})
+        userinfo_form = UserInfoForm(initial={"school":userinfo.school, "company":userinfo.company, "profession":userinfo.profession, "address":userinfo.address, "aboutme":userinfo.aboutme})
+        return render(request, "account/myself_edit.html", {"user_form":user_form, "userprofile_form":userprofile_form, "userinfo_form":userinfo_form})
+
