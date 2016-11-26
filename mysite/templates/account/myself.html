@@ -45,12 +45,12 @@
                 <div class="col-md-4 text-right"><span>个人介绍:</span></div>
                 <div class="col-md-8 text-left">{{userinfo.aboutme}}</div>
             </div>
+            <a href="{% url 'account:edit_my_information' %}"><button class="btn btn-primary btn-lg">edit my information</button></a>
         </div>
         <div class="col-md-6">
             <p>picture</p>
         </div>
     </div>
-
 </div>
 {% endblock %}
 
