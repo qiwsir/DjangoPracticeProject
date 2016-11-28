@@ -48,7 +48,8 @@
             <a href="{% url 'account:edit_my_information' %}"><button class="btn btn-primary btn-lg">edit my information</button></a>
         </div>
         <div class="col-md-6">
-            <p>picture</p>
+            <div style="margin-right:100px"><img name="user_face" src="{% static 'images/newton.jpg' %}" class="img-circle" id="my_photo"></div>
+            <div style="margin-right:100px"><button class="btn btn-primary btn-lg" id="upload_image" onclick="upload_image_layer()">upload my photo</button></div>
         </div>
     </div>
 </div>
