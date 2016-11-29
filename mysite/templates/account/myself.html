@@ -53,5 +53,62 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
+<script type="text/javascript" src="{% static 'js/layer.js'%}"></script>
+<script type="text/javascript" src="{% static 'js/cropbox-min.js' %}"></script>
+<script>
+// layer
+function upload_image_layer(){
+    var index = layer.open({
+        type: 1,
+        title: false,
+        closeBtn: 0,
+        shadeClose: true,
+        area: '650px',
+        // success: function(){
+        //     var options = {
+        //         thumbBox: '.crop_thumbBox',
+        //         spinner: '.crop_spinner',
+        //         imgSrc: ''
+        //     };
+        //     var cropper = $('.crop_imageBox').cropbox(options);
+        //     var img="";
+        //     $('#upload-file').on('change', function(){
+        //         var reader = new FileReader();
+        //         reader.onload = function(e){
+        //             options.imgSrc = e.target.result;
+        //             cropper = $('.crop_imageBox').cropbox(options);
+        //         };
+        //         reader.readAsDataURL(this.files[0]);
+        //         this.files = [];
+        //         getImg();
+        //     });
+        //     function getImg(){
+        //         img = cropper.getDataURL();
+        //         $('.crop_cropped').html('');
+        //         $('.crop_cropped').append('<img src="'+img+'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+        //         $('.crop_cropped').append('<img src="'+img+'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+        //         $('.crop_cropped').append('<img src="'+img+'" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+        //     }
+        //     $(".crop_imageBox").on("mouseup",function(){
+        //         getImg();
+        //     });
+        //     $('#btnZoomIn').on('click', function(){
+        //         cropper.zoomIn();
+        //     });
+        //     $('#btnZoomOut').on('click', function(){
+        //         cropper.zoomOut();
+        //     });
+        //     $('#btnCrop').on('click', function(){
+        //         alert("upload picture");
+        //     });
+        // },
+        content:'<div class="crop_container"><div class="crop_imageBox"><div class="crop_thumbBox"></div><div class="crop_spinner" style="display: none"></div></div><div class="crop_action"><div class="crop_new-contentarea tc"> <a href="javascript:void(0)" class="upload-img"><label for="upload-file">请先选择图片...</label></a><input type="file" class="" name="upload-file" id="upload-file" /></div><input type="button" id="btnCrop"  class="crop_Btnsty_peyton" value="OK"><input type="button" id="btnZoomIn" class="crop_Btnsty_peyton" value="+"  ><input type="button" id="btnZoomOut" class="crop_Btnsty_peyton" value="-" ></div><div class="crop_cropped"></div></div>',
+    });
+
+}
+
+</script>
 {% endblock %}
 
