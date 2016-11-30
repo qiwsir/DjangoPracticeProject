@@ -89,6 +89,7 @@ def myself_edit(request):
 def my_image(request):
     if request.method == 'POST':
         img = request.POST['img']
+        print(img)
         userinfo = UserInfo.objects.get(user=request.user.id)
         userinfo.photo = img
         userinfo.save()
