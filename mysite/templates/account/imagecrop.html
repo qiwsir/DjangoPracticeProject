@@ -77,9 +77,17 @@ $(window).load(function() {
 			type: 'POST',
 			data: {"img": img},
 			success: function(e){
-				location.href= "{% url 'account:my_information' %}"
+				//location.href= "{% url 'account:my_information' %}"
+				if(e == "1"){
+					alert("a picture has been uploaded.")
+				} else {
+					alert("sorry, you are not lucky. the picutre can't been uploaded.")
+				}
+				
 			},
 		});
 	})
+
+
 });
 </script>
