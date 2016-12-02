@@ -24,6 +24,7 @@
 </div>
 
 <script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/layer.js'%}"></script>
 <script type="text/javascript">
  
 $(window).load(function() {
@@ -79,7 +80,7 @@ $(window).load(function() {
 			success: function(e){
 				//location.href= "{% url 'account:my_information' %}"
 				if(e == "1"){
-					alert("a picture has been uploaded.")
+					parent.location.reload();
 				} else {
 					alert("sorry, you are not lucky. the picutre can't been uploaded.")
 				}
