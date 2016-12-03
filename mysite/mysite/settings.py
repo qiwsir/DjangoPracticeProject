@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'account',
     'django.contrib.admin',
     'password_reset',
+    'ArticleManage',
 ]
 
 MIDDLEWARE = [
@@ -144,5 +145,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
