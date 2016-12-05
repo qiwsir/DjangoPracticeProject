@@ -1,0 +1,33 @@
+{% extends "ArticleManage/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}article column{% endblock %}
+
+{% block content %}
+<div class="container">
+{% include "ArticleManage/leftslider.html" %}
+<div class="col-md-10">
+    <p class="text-right"><button class="btn btn-primary">add column</button></p>
+    <table class="table table-hover">
+    	<tr>
+    		<td>序号</td>
+    		<td>栏目名称</td>
+    		<td>操作</td>
+    	</tr>
+    	{% if colums %}
+    	{% for column in columns %}
+    	<tr>
+    		<td>{{ forloop.counter }}</td>
+    		<td>{{ column.column }}</td>
+    		<td>--</td>
+    	</tr>
+    	{% endfor %}
+    	{% else %}
+    	<p>还没有设置栏目，太懒了。</p>
+    	{% endif %}
+    </table>
+
+</div>
+</div>
+{% endblock %}
