@@ -17,10 +17,13 @@
     	</tr>
     	{% if columns %}
     	{% for column in columns %}
-    	<tr>
+    	<tr id={{ forloop.counter }}>
     		<td>{{ forloop.counter }}</td>
     		<td>{{ column.column }}</td>
-    		<td>--</td>
+    		<td>
+    		    <a name="edit" href="javascript:" onclick="edit_column(this, {{ forloop.counter }}, {{ column.id }})"><span class="glyphicon glyphicon-pencil"></span></a>
+    		    <a name="delete" href="javascript:" onclick="del_column(this, {{ forloop.counter }}, {{ column.id }})"><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>
+    		</td>
     	</tr>
     	{% endfor %}
     	{% else %}
@@ -62,5 +65,64 @@
 			}
 		});
 	}
+
+
+	function edit_column(id, column_id){
+		var name = $(id).parents("tr").children("td").eq(1).text();
+		var index = layer.open({
+			type: 1,
+			skin: "layui-layer-rim",
+            area: ["400px", "200px"],
+            title: "编辑栏目",
+            content: '<div class="text-center" style="margin-top:20px"><p>请编辑的栏目名称</p><p><input type="text" id="new_name" value="'+name+'"></p></div>',
+            btn:['确定', '取消'],
+            yes: function(index, layero){
+            	new_name = $("#new_name").val();
+            	$.ajax({
+            		url: "{% url 'article:rename_article_column' %}",
+            		type: "POST",
+            		data: {"column_id": column_id, "column_name": new_name},
+            		success: function(e){
+            			if(e=="1"){
+            				parent.location.reload();
+            				layer.msg("good");
+            			}else{
+            				layer.msg("新的名称没有保存,修改失败。")
+            			}
+            			
+            		},
+            	});
+            },
+		});
+	}
+
+	function del_column(id, column_id){
+		var name = $(id).parents("tr").children("td").eq(1).text();
+		layer.open({
+			type: 1,
+			skin: "layui-layer-rim",
+			area: ["400px", "200px"],
+			title: "删除栏目",
+			content: '<div class="text-center" style="margin-top:20px"><p>是否确定删除{'+name+'}栏目</p></div>',
+			btn:['确定', '取消'],
+			yes: function(){
+				$.ajax({
+					url: '{% url "article:del_article_column" %}',
+					type:"POST",
+					data: {"column_id":column_id},
+					success: function(e){
+						if(e=="1"){
+							parent.location.reload();
+							layer.msg("has been deleted.");
+						}else{
+							layer.msg("删除失败");
+						}
+						
+					},
+				})	
+			},
+		});
+	}
 </script>
+
 {% endblock %}
