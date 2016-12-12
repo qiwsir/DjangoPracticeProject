@@ -72,15 +72,17 @@ def article_post(request):
 	if request.method=="POST":
 		article_post_form = ArticlePostForm(data=request.POST)
 		if article_post_form.is_valid():
-			cd = article_post_form.cleaned_data
-			try:
- 			    new_article = article_post_form.save(commit=False)
- 			    new_article.author = request.user
- 			    new_article.column = request.user.article_column.get(id=request.POST['column_id'])
- 			    new_article.save()
- 			    return HttpResponse("1")
-			except:
-				return HttpResponse("2")
+		 	cd = article_post_form.cleaned_data
+		 	try:
+ 	 		    new_article = article_post_form.save(commit=False)
+ 	 		    new_article.author = request.user
+ 	 		    new_article.column = request.user.article_column.get(id=request.POST['column_id'])
+ 	 		    new_article.save()
+ 	 		    return HttpResponse("1")
+		 	except:
+		 		return HttpResponse("2")
+		else:
+			return HttpResponse("3")
 	else:
 		article_post_form = ArticlePostForm()
 		article_columns = request.user.article_column.all()
