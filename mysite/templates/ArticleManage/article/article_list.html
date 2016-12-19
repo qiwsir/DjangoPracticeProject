@@ -1,0 +1,31 @@
+{% extends "ArticleManage/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}articles list{% endblock %}
+
+{% block content %}
+<div class="container">
+{% include "ArticleManage/leftslider.html" %}
+<div class="col-md-10">
+    <table class="table table-hover">
+    	<tr>
+    		<td>序号</td>
+    		<td>标题</td>
+    		<td>操作</td>
+    	</tr>
+    	{% for article in articles %}
+    	<tr id={{ article.id }}>
+    		<td>{{ forloop.counter }}</td>
+    		<td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+    		<td>--
+    		    <!--a name="edit" href="javascript:" onclick="edit_column(this, {{ forloop.counter }}, {{ column.id }})"><span class="glyphicon glyphicon-pencil"></span></a>
+    		    <a name="delete" href="javascript:" onclick="del_column(this, {{ forloop.counter }}, {{ column.id }})"><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a-->
+    		</td>
+    	</tr>
+    	{% endfor %}
+    </table>
+
+</div>
+</div>
+{% endblock %}

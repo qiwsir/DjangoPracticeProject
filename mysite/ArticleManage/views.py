@@ -54,12 +54,13 @@ def del_article_column(request):
 		return HttpResponse("2")
 
 @login_required(login_url='/account/login')
-def article_list(request, column=None):
-	if column:
-		articles = ArticlePost.objects.filter(column=column)
-	else:
+def article_list(request):
+	if request.method == "GET":
 		articles = ArticlePost.objects.all()
-	return render(request, "ArticleManage/article/article_list.html", {"articles":articles})
+		print(articles)
+		return render(request, "ArticleManage/article/article_list.html", {"articles":articles})
+	if request.method == "POST":
+		pass
 
 @login_required(login_url='/account/login')
 def article_detail(request, id, slug):
