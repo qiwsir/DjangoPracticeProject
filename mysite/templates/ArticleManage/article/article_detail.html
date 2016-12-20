@@ -1,0 +1,18 @@
+{% extends "ArticleManage/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}articles list{% endblock %}
+
+{% block content %}
+<div class="container">
+{% include "ArticleManage/leftslider.html" %}
+<div class="col-md-10">
+<h1>{{ article.title }}</h1>
+<p>{{ user.username }}</p>
+<div>
+	{{ article.body }}
+</div>
+</div>
+</div>
+{% endblock %}
