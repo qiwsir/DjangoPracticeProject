@@ -21,8 +21,8 @@
     		<td>{{ forloop.counter }}</td>
     		<td>{{ column.column }}</td>
     		<td>
-    		    <a name="edit" href="javascript:" onclick="edit_column(this, {{ forloop.counter }}, {{ column.id }})"><span class="glyphicon glyphicon-pencil"></span></a>
-    		    <a name="delete" href="javascript:" onclick="del_column(this, {{ forloop.counter }}, {{ column.id }})"><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>
+    		    <a name="edit" href="javascript:" onclick="edit_column(this, {{ column.id }})"><span class="glyphicon glyphicon-pencil"></span></a>
+    		    <a name="delete" href="javascript:" onclick="del_column(this, {{ column.id }})"><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>
     		</td>
     	</tr>
     	{% endfor %}
@@ -67,8 +67,8 @@
 	}
 
 
-	function edit_column(id, column_id){
-		var name = $(id).parents("tr").children("td").eq(1).text();
+	function edit_column(the, column_id){
+		var name = $(the).parents("tr").children("td").eq(1).text();
 		var index = layer.open({
 			type: 1,
 			skin: "layui-layer-rim",
@@ -96,8 +96,8 @@
 		});
 	}
 
-	function del_column(id, column_id){
-		var name = $(id).parents("tr").children("td").eq(1).text();
+	function del_column(the, column_id){
+		var name = $(the).parents("tr").children("td").eq(1).text();
 		layer.open({
 			type: 1,
 			skin: "layui-layer-rim",

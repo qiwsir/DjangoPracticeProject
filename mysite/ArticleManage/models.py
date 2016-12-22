@@ -30,9 +30,10 @@ class ArticlePost(models.Model):
 		return self.title
 
 	def save(self, *args, **kargs):
-		if not self.slug:
-			self.slug = slugify(self.title)
-			super(ArticlePost, self).save(*args, **kargs)
+		#if not self.slug:
+		self.slug = slugify(self.title)
+		super(ArticlePost, self).save(*args, **kargs)
+
 
 	def get_absolute_url(self):
 		return reverse("article:article_detail", args=[self.id, self.slug])

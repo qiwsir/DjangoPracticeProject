@@ -57,7 +57,6 @@ def del_article_column(request):
 def article_list(request):
 	if request.method == "GET":
 		articles = ArticlePost.objects.all()
-		print(articles)
 		return render(request, "ArticleManage/article/article_list.html", {"articles":articles})
 	if request.method == "POST":
 		pass
@@ -91,3 +90,47 @@ def article_post(request):
 		return render(request, "ArticleManage/article/article_post.html", {"article_post_form":article_post_form, "article_columns":article_columns})
 
 
+@login_required(login_url='/account/login')
+@require_POST
+@csrf_exempt
+def del_article(request):
+    article_id = request.POST['article_id']
+    try:
+        article = ArticlePost.objects.get(id=article_id)
+        article.delete()
+        return HttpResponse("1")
+    except:
+    	return HttpResponse("2")
+
+@login_required(login_url='/account/login')
+@csrf_exempt
+def redit_article(request, article_id):
+	if request.method == "GET":
+	    article_columns = request.user.article_column.all()
+	    article = ArticlePost.objects.get(id=article_id)
+	    this_article_form = ArticlePostForm(initial={"title":article.title})
+	    this_article_column = article.column
+	    return render(request, "ArticleManage/article/redit_article.html", {"article":article, "article_columns":article_columns, "this_article_column":this_article_column, "this_article_form":this_article_form})
+
+	else:
+		redit_article = ArticlePost.objects.get(id=article_id)
+		try:
+		    redit_article.column = request.user.article_column.get(id=request.POST['column_id'])
+		    redit_article.title = request.POST['title']
+		    redit_article.body = request.POST['body']
+		    redit_article.save()
+		    return HttpResponse("1")
+		except:
+			return HttpResponse("2")
+
+		# if redit_article_form.is_valid():
+		#  	cd = redit_article_form.cleaned_data
+		#  	try:
+ 	#  		    new_article = redit_article_form.save(commit=False)
+ 	#  		    new_article.column = request.user.article_column.get(id=request.POST['column_id'])
+ 	#  		    new_article.save()
+ 	#  		    return HttpResponse("1")
+		#  	except:
+		#  		return HttpResponse("2")
+		# else:
+		# 	return HttpResponse("3")
