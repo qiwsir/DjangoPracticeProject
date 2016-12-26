@@ -62,10 +62,8 @@
         		if(e=="1"){
         			layer.msg("successful");
                     location.href = "{% url 'article:article_list' %}";
-        		}else if(e=="2"){
-        			layer.msg("sorry.");
         		}else{
-        			layer.msg("是不是有没有填写的项目？都必须写，不能空。");
+        			layer.msg("sorry.");
         		}
         	},
         });

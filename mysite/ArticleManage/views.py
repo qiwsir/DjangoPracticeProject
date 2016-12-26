@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from .models import ArticleColumn, ArticlePost
 from django.contrib.auth.models import User
 
@@ -13,18 +15,17 @@ from .forms import ArticleColumnForm, ArticlePostForm
 @csrf_exempt
 def article_column(request):
 	if request.method == "GET":
-	    columns = ArticleColumn.objects.all()
+	    columns = ArticleColumn.objects.filter(user_id=request.user.id)
 	    column_form = ArticleColumnForm()
 	    return render(request, "ArticleManage/column/article_column.html", {"columns":columns, 'column_form':column_form})
 
 	if request.method == "POST":
 		column_name = request.POST['column']
-		has_column = ArticleColumn.objects.filter(column=column_name)
-		if has_column:
+		columns = ArticleColumn.objects.filter(user_id=request.user.id, column=column_name)
+		if columns:
 			return HttpResponse('2')
 		else:
-		    user = User.objects.get(username=request.user.username)
-		    ArticleColumn.objects.create(user=user, column=column_name)
+		    ArticleColumn.objects.create(user=request.user, column=column_name)
 		    return HttpResponse("1")
 
 @login_required(login_url='/account/login')
@@ -55,11 +56,20 @@ def del_article_column(request):
 
 @login_required(login_url='/account/login')
 def article_list(request):
-	if request.method == "GET":
-		articles = ArticlePost.objects.all()
-		return render(request, "ArticleManage/article/article_list.html", {"articles":articles})
-	if request.method == "POST":
-		pass
+	articles_list = ArticlePost.objects.filter(author=request.user)
+	paginator = Paginator(articles_list, 2)    
+	page = request.GET.get('page')
+	try:
+		current_page = paginator.page(page)
+		articles = current_page.object_list
+	except PageNotAnInteger:
+		current_page = paginator.page(1)
+		articles = current_page.object_list
+	except EmptyPage:
+		current_page = paginator.page(paginator.num_pages)
+		articles = current_page.object_list
+	return render(request, "ArticleManage/article/article_list.html", {"articles":articles, "page": current_page})
+
 
 @login_required(login_url='/account/login')
 def article_detail(request, id, slug):
@@ -122,15 +132,3 @@ def redit_article(request, article_id):
 		    return HttpResponse("1")
 		except:
 			return HttpResponse("2")
-
-		# if redit_article_form.is_valid():
-		#  	cd = redit_article_form.cleaned_data
-		#  	try:
- 	#  		    new_article = redit_article_form.save(commit=False)
- 	#  		    new_article.column = request.user.article_column.get(id=request.POST['column_id'])
- 	#  		    new_article.save()
- 	#  		    return HttpResponse("1")
-		#  	except:
-		#  		return HttpResponse("2")
-		# else:
-		# 	return HttpResponse("3")
