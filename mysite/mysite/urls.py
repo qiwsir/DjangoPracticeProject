@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^account/', include('account.urls', namespace='account', app_name='account')),
     url(r'^pwd_reset/', include("password_reset.urls")),
     url(r'^article/', include('ArticleManage.urls', namespace='article', app_name="article")),
+    url(r'^article/', include('article.urls', namespace='article_list', app_name="article_list")),
 ]
 
 #if settings.DEBUG:

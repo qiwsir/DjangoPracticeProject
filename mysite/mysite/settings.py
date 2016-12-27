@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'password_reset',
     'ArticleManage',
+    'article',
 ]
 
 MIDDLEWARE = [
