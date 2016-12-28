@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from ArticleManage.models import ArticleColumn, ArticlePost
 
-def articles_list(request, username=None):
+def list_articles(request, username=None):
 	if username:
 		user = User.objects.get(username=username)
 		articles_title = ArticlePost.objects.fileter(author=user)
@@ -23,5 +23,8 @@ def articles_list(request, username=None):
 		current_page = paginator.page(paginator.num_pages)
 		articles = current_page.object_list
 
-	return render(request, "article/articles_list.html", {"articles":articles, "page": current_page, "username":username})
+	return render(request, "article/list_articles.html", {"articles":articles, "page": current_page})
 
+def read_article(request, id, slug):
+	article = get_object_or_404(ArticlePost, id=id, slug=slug)
+	return render(request, "article/read_article.html", {"article":article})

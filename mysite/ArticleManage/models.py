@@ -37,3 +37,7 @@ class ArticlePost(models.Model):
 
 	def get_absolute_url(self):
 		return reverse("article:article_detail", args=[self.id, self.slug])
+
+	def get_url_path(self):
+		#return "/article/read-article/{0}/{1}".format(self.id, self.slug)
+		return reverse("article_list:read_article", args=[self.id, self.slug])

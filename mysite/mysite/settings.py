@@ -134,7 +134,7 @@ STATICFILES_DIRS = (
 #    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
 #)
 
-LOGIN_REDIRECT_URL = '/blog/'
+LOGIN_REDIRECT_URL = '/article/list-article/'
 
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_HOST_USER = "your_count@qq.com"
