@@ -8,6 +8,7 @@ def list_articles(request, username=None):
 	if username:
 		user = User.objects.get(username=username)
 		articles_title = ArticlePost.objects.filter(author=user)
+		userinfo = user.userinfo
 	else:
 		articles_title = ArticlePost.objects.all()
 
@@ -23,6 +24,8 @@ def list_articles(request, username=None):
 		current_page = paginator.page(paginator.num_pages)
 		articles = current_page.object_list
 
+	if username:
+		return render(request, "article/author_articles.html", {"articles":articles, "page":current_page, "userinfo":userinfo})
 	return render(request, "article/list_articles.html", {"articles":articles, "page": current_page})
 
 def read_article(request, id, slug):
