@@ -8,7 +8,10 @@ def list_articles(request, username=None):
 	if username:
 		user = User.objects.get(username=username)
 		articles_title = ArticlePost.objects.filter(author=user)
-		userinfo = user.userinfo
+		try:
+		    userinfo = user.userinfo
+		except:
+			userinfo = None
 	else:
 		articles_title = ArticlePost.objects.all()
 

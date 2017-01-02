@@ -15,7 +15,7 @@
         <a href="{{article.get_url_path}}" class="list-group-item active">
         	<h4 class="list-group-item-heading">{{article.title}}</h4>
         </a>
-        	<p class="list-group-item-text">作者：<a href="{% url 'article_list:author_articles' article.author.username %}">{{article.author.username}}-{{userinfo.school}}</a></p>
+        	<p class="list-group-item-text">作者：<a href="{% url 'article_list:author_articles' article.author.username %}">{{article.author.username}}</a></p>
         	<p class="list-group-item-text">概要：{{article.body|slice:'70'|linebreaks}}</p>
         
     </div>
@@ -27,13 +27,17 @@
     {% if userinfo.photo %}
     <img src="{{ userinfo.photo | striptags }}" class="img-circle" id="my_photo" name="user_face">
     {% else %}
-    <img name="user_face" src="{% static 'images/newton.jpg' %}" class="img-circle" id="my_photo">
+    <img width="150" height="150" name="user_face" src="{% static 'images/newton.jpg' %}" class="img-circle" id="my_photo">
     {% endif %}
 </div>
 <div>
+    {% if userinfo %}
     <p>{{ userinfo.user.username }}</p>
     <p>{{ userinfo.company }}
     <p>{{ userinfo.aboutme }}</p>
+    {% else %}
+    <p>这个作者太懒了，什么也没有留下。</p>
+    {% endif %}
 </div>
 </div>
 </div>
