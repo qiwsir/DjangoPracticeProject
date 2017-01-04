@@ -1,6 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
+
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from ArticleManage.models import ArticleColumn, ArticlePost
 
@@ -55,3 +60,21 @@ def author_articles(request, username=None):
 		articles = current_page.object_list
 
 	return render(request, "article/list_articles.html", {"articles":articles, "page": current_page})
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/account/login/')
+def like_article(request):
+	article_id = request.POST.get("id")
+	action = request.POST.get("action")
+	if article_id and action:
+		try:
+			article = ArticlePost.objects.get(id=article_id)
+			if action=="like":
+				article.users_like.add(request.user)
+				return HttpResponse("1")
+			else:
+				article.users_like.remove(request.user)
+				return HttpResponse("2")
+		except:
+			return HttpResponse("no")
