@@ -9,6 +9,11 @@ from django.views.decorators.http import require_POST
 
 from ArticleManage.models import ArticleColumn, ArticlePost
 
+import redis
+from django.conf import settings
+
+r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
+
 def list_articles(request, username=None):
 	if username:
 		user = User.objects.get(username=username)
@@ -38,7 +43,8 @@ def list_articles(request, username=None):
 
 def read_article(request, id, slug):
 	article = get_object_or_404(ArticlePost, id=id, slug=slug)
-	return render(request, "article/read_article.html", {"article":article})
+	total_views = r.incr("article:{}:views".format(article.id))
+	return render(request, "article/read_article.html", {"article":article, "total_views":total_views})
 
 def author_articles(request, username=None):
 	if username:

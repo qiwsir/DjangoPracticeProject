@@ -11,7 +11,7 @@
 <div class="container">
     <header>
         <h1>{{ article.title }}</h1>
-        <p><a href="{% url 'article_list:author_articles' article.author.username %}">{{ article.author.username }}</a><span style="margin-left:20px" class="glyphicon glyphicon-thumbs-up">{{ total_likes }}like{{ total_likes | pluralize }}</span></p>
+        <p><a href="{% url 'article_list:author_articles' article.author.username %}">{{ article.author.username }}</a><span style="margin-left:20px" class="glyphicon glyphicon-thumbs-up">{{ total_likes }}like{{ total_likes | pluralize }}</span><span style="margin-left: 20px">{{ total_views }}view{{ total_views | pluralize }}</span></p>
     </header>
 
     <link rel="stylesheet" href="{% static 'editor/css/editormd.preview.css' %}" />
