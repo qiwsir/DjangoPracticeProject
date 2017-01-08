@@ -44,7 +44,14 @@ def list_articles(request, username=None):
 def read_article(request, id, slug):
 	article = get_object_or_404(ArticlePost, id=id, slug=slug)
 	total_views = r.incr("article:{}:views".format(article.id))
-	return render(request, "article/read_article.html", {"article":article, "total_views":total_views})
+	r.zincrby('article_ranking', article.id, 1)
+
+	article_ranking = r.zrange('article_ranking', 0, -1, desc=True)[:10]
+	article_ranking_ids = [int(id) for id in article_ranking]
+	most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))
+	most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
+	
+	return render(request, "article/read_article.html", {"article":article, "total_views":total_views, "most_viewed": most_viewed})
 
 def author_articles(request, username=None):
 	if username:
@@ -84,3 +91,13 @@ def like_article(request):
 				return HttpResponse("2")
 		except:
 			return HttpResponse("no")
+
+# #@login_required(login_url='/account/login/')
+# def  rank_article(request):
+# 	article_ranking = r.zrange('article_ranking', 0, -1, desc=True)[:10]
+# 	article_ranking_ids = [int(id) for id in article_ranking]
+# 	most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))
+# 	most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
+# 	#most_viewed.sort()
+# 	print(most_viewed)
+# 	return render(request, 'article/rank_article.html', {"most_viewed": most_viewed})

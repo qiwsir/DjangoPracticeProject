@@ -9,6 +9,7 @@
 {% with total_likes=article.users_like.count users_like=article.users_like.all %}
 
 <div class="container">
+<div class="col-md-9">
     <header>
         <h1>{{ article.title }}</h1>
         <p><a href="{% url 'article_list:author_articles' article.author.username %}">{{ article.author.username }}</a><span style="margin-left:20px" class="glyphicon glyphicon-thumbs-up">{{ total_likes }}like{{ total_likes | pluralize }}</span><span style="margin-left: 20px">{{ total_views }}view{{ total_views | pluralize }}</span></p>
@@ -34,6 +35,18 @@
         <p class="text-center">还没有人对此文章表态</p>
         {% endfor %}
     </div>
+</div>
+<div class="col-md-3">
+<p class="text-center"><h3>最受欢迎文章</h3></p>
+<ol>
+    {% for article_rank in most_viewed %}
+    <li>
+        <a href="{{article_rank.get_url_path}}">{{ article_rank.title }}</a>
+    </li>
+    {% endfor %}
+</ol>
+
+</div>
 </div>
 <script src='{% static "js/jquery.js" %}'></script>
 <script src='{% static "editor/lib/marked.min.js" %}'></script>
