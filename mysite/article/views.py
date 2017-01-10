@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from ArticleManage.models import ArticleColumn, ArticlePost
+from .models import Comment
+from .forms import CommentForm
 
 import redis
 from django.conf import settings
@@ -45,14 +47,25 @@ def read_article(request, id, slug):
 	article = get_object_or_404(ArticlePost, id=id, slug=slug)
 	total_views = r.incr("article:{}:views".format(article.id))
 	r.zincrby('article_ranking', article.id, 1)
-
 	article_ranking = r.zrange('article_ranking', 0, -1, desc=True)[:10]
 	article_ranking_ids = [int(id) for id in article_ranking]
 	most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))
 	most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
-	
-	return render(request, "article/read_article.html", {"article":article, "total_views":total_views, "most_viewed": most_viewed})
 
+	comments = article.comments.all()
+	
+	if request.method == "POST":
+		comment_form = CommentForm(data=request.POST)
+		if comment_form.is_valid():
+			new_comment = comment_form.save(commit=False)
+			new_comment.article = article
+			new_comment.save()
+	else:
+		comment_form = CommentForm()
+
+	return render(request, "article/read_article.html", {"article":article, "total_views":total_views, "most_viewed": most_viewed, "comments":comments, "comment_form":comment_form})
+
+	
 def author_articles(request, username=None):
 	if username:
 		user = User.objects.get(username=username)

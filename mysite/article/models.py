@@ -6,7 +6,7 @@ from ArticleManage.models import ArticlePost
 
 class Comment(models.Model):
 	article = models.ForeignKey(ArticlePost, related_name="comments")
-	commentator = models.ForeignKey(User, related_name="commentator")
+	commentator = models.CharField(max_length=90)
 	body = models.TextField()
 	created = models.DateTimeField(auto_now_add=True)
 
