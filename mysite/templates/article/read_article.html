@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load article_tags %}
 {% load staticfiles %}
 
 {% block title %}{{ article.title }}{% endblock %}
@@ -69,16 +69,29 @@
         </form>
     </div>
 </div>
+{% endwith %}
 <div class="col-md-3">
-<p class="text-center"><h3>最受欢迎文章</h3></p>
-<ol>
-    {% for article_rank in most_viewed %}
-    <li>
-        <a href="{{article_rank.get_url_path}}">{{ article_rank.title }}</a>
-    </li>
-    {% endfor %}
-</ol>
-
+    <p class="text-center"><h3>最受欢迎文章</h3></p>
+    <ol>
+        {% for article_rank in most_viewed %}
+        <li>
+            <a href="{{article_rank.get_url_path}}">{{ article_rank.title }}</a>
+        </li>
+        {% endfor %}
+    </ol>
+    <hr>
+    <p class="text-center"><h3>最新文章</h3></p>
+    {% latest_articles 4 %}
+    <hr>
+    <p class="text-center"><h3>最多评论文章</h3></p>
+    {% most_commented_articles as most_comments %}
+    <ul>
+        {% for comment_article in most_comments %}
+        <li>
+            <a href="{{comment_article.get_url_path}}">{{ comment_article.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 </div>
 <script src='{% static "js/jquery.js" %}'></script>
@@ -122,5 +135,5 @@ function like_article(id,action){
     });
 }
 </script>
-{% endwith %}
+
 {% endblock %}
