@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load article_tags %}
 {% load staticfiles %}
 
 {% block title %}articles{% endblock %}
@@ -30,9 +30,11 @@
     <img width="150" height="150" name="user_face" src="{% static 'images/newton.jpg' %}" class="img-circle" id="my_photo">
     {% endif %}
 </div>
+
 <div>
+    <p>{{ user.username }}</p>
+    <p>共发表文章{% author_total_articles user %}篇</p>
     {% if userinfo %}
-    <p>{{ userinfo.user.username }}</p>
     <p>{{ userinfo.company }}
     <p>{{ userinfo.aboutme }}</p>
     {% else %}

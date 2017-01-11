@@ -40,7 +40,7 @@ def list_articles(request, username=None):
 		articles = current_page.object_list
 
 	if username:
-		return render(request, "article/author_articles.html", {"articles":articles, "page":current_page, "userinfo":userinfo})
+		return render(request, "article/author_articles.html", {"articles":articles, "page":current_page, "userinfo":userinfo, "user":user})
 	return render(request, "article/list_articles.html", {"articles":articles, "page": current_page})
 
 def read_article(request, id, slug):
