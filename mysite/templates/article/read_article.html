@@ -17,9 +17,13 @@
 
     <link rel="stylesheet" href="{% static 'editor/css/editormd.preview.css' %}" />
     <div id='editormd-view'>
-        <textarea id="append-test" style="display:none;">
+
+    {{ article.body | markdown }}
+        <!-- <textarea id="append-test" style="display:none;">
+    }
+    }
 {{ article.body }}
-	    </textarea> 
+	    </textarea> --> 
     </div>
     <div>
         <p class="text-center">
