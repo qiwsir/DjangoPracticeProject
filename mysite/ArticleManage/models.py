@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 
 from slugify import slugify
 
-from taggit.managers import TaggableManager
 
 class ArticleColumn(models.Model):
 	user = models.ForeignKey(User, related_name='article_column')
@@ -17,7 +16,10 @@ class ArticleColumn(models.Model):
 
 class ArticleTag(models.Model):
 	author = models.ForeignKey(User, related_name="tag")
-	tag = TaggableManager()
+	tag = models.CharField(max_length=500)
+
+	def __str__(self):
+		return self.tag
 	
 class ArticlePost(models.Model):
 	author = models.ForeignKey(User, related_name="article")
