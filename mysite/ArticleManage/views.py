@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 
 from .forms import ArticleColumnForm, ArticlePostForm, ArticleTagForm
 
+import json
+
 @login_required(login_url='/account/login/')
 @csrf_exempt
 def article_column(request):
@@ -82,15 +84,19 @@ def article_post(request):
 	if request.method=="POST":
 		article_post_form = ArticlePostForm(data=request.POST)
 		if article_post_form.is_valid():
-		 	cd = article_post_form.cleaned_data
-		 	try:
- 	 		    new_article = article_post_form.save(commit=False)
- 	 		    new_article.author = request.user
- 	 		    new_article.column = request.user.article_column.get(id=request.POST['column_id'])
- 	 		    new_article.save()
- 	 		    return HttpResponse("1")
-		 	except:
-		 		return HttpResponse("2")
+			try:
+				new_article = article_post_form.save(commit=False)
+				new_article.author = request.user
+				new_article.column = request.user.article_column.get(id=request.POST['column_id'])
+				new_article.save()
+				tags = request.POST['tags']
+				if tags:
+					for atag in json.loads(request.POST['tags']):
+						tag = request.user.tag.get(tag=atag)
+						new_article.article_tag.add(tag)
+				return HttpResponse("1")
+			except:
+				return HttpResponse("2")
 		else:
 			return HttpResponse("3")
 	else:
