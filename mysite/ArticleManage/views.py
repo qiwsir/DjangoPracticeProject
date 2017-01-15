@@ -96,8 +96,9 @@ def article_post(request):
 	else:
 		article_post_form = ArticlePostForm()
 		article_columns = request.user.article_column.all()
+		article_tags = request.user.tag.all()
 		#article_columns = ArticleColumn.objects.filter(user=request.user)
-		return render(request, "ArticleManage/article/article_post.html", {"article_post_form":article_post_form, "article_columns":article_columns})
+		return render(request, "ArticleManage/article/article_post.html", {"article_post_form":article_post_form, "article_columns":article_columns, "article_tags":article_tags})
 
 
 @login_required(login_url='/account/login')
@@ -134,6 +135,7 @@ def redit_article(request, article_id):
 			return HttpResponse("2")
 
 @login_required(login_url='/account/login')
+@csrf_exempt
 def article_tag(request):
 	if request.method == "GET":
 	    article_tags = ArticleTag.objects.filter(author=request.user)
@@ -154,3 +156,14 @@ def article_tag(request):
 			return HttpResponse("sorry, the form is not valid.")
 
 		
+@login_required(login_url='/account/login')
+@require_POST
+@csrf_exempt
+def del_article_tag(request):
+    tag_id = request.POST['tag_id']
+    try:
+        tag = ArticleTag.objects.get(id=tag_id)
+        tag.delete()
+        return HttpResponse("1")
+    except:
+    	return HttpResponse("2")

@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^del-article/$', views.del_article, name="del_article"),
     url(r'^redit-article/(?P<article_id>\d+)/$', views.redit_article, name="redit_article"),
     url(r'^article-tag/$', views.article_tag, name="article_tag"),
+    url(r'^del-article-tag/$', views.del_article_tag, name="del_article_tag"),
 ]
