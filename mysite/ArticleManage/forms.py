@@ -10,7 +10,7 @@ class ArticleColumnForm(forms.ModelForm):
 class ArticlePostForm(forms.ModelForm):
 	class Meta:
 		model = ArticlePost
-		fields = ("title", "body", "article_tag")
+		fields = ("title", "body", )
 
 class ArticleTagForm(forms.ModelForm):
 	class Meta:

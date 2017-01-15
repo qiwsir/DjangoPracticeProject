@@ -52,7 +52,7 @@ def read_article(request, id, slug):
 	most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))
 	most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
 
-	comments = article.comments.all()
+	#comments = article.comments.all()
 	
 	if request.method == "POST":
 		comment_form = CommentForm(data=request.POST)
@@ -63,7 +63,10 @@ def read_article(request, id, slug):
 	else:
 		comment_form = CommentForm()
 
-	return render(request, "article/read_article.html", {"article":article, "total_views":total_views, "most_viewed": most_viewed, "comments":comments, "comment_form":comment_form})
+    #tags = article.article_tag.all()
+
+	return render(request, "article/read_article.html", \
+		{"article":article, "total_views":total_views, "most_viewed": most_viewed, "comment_form":comment_form})
 
 	
 def author_articles(request, username=None):
