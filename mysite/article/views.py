@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.db.models import Count
 
 from ArticleManage.models import ArticleColumn, ArticlePost
 from .models import Comment
@@ -63,10 +64,13 @@ def read_article(request, id, slug):
 	else:
 		comment_form = CommentForm()
 
-    #tags = article.article_tag.all()
+	article_tags_ids = article.article_tag.values_list("id", flat=True)
+	similar_articles = ArticlePost.objects.filter(article_tag__in=article_tags_ids).exclude(id=article.id)
+	similar_articles = similar_articles.annotate(same_tags=Count("article_tag")).order_by('-same_tags', '-created')[:4]
 
 	return render(request, "article/read_article.html", \
-		{"article":article, "total_views":total_views, "most_viewed": most_viewed, "comment_form":comment_form})
+		{"article":article, "total_views":total_views, \
+		"most_viewed": most_viewed, "comment_form":comment_form, "similar_articles":similar_articles})
 
 	
 def author_articles(request, username=None):
