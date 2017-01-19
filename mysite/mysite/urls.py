@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^pwd_reset/', include("password_reset.urls")),
     url(r'^article/', include('ArticleManage.urls', namespace='article', app_name="article")),
     url(r'^article/', include('article.urls', namespace='article_list', app_name="article_list")),
+    #url(r'^image/', include('image.urls', namespace='image', app_name='image')),
 ]
 
 #if settings.DEBUG:

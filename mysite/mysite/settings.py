@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'password_reset',
     'ArticleManage',
     'article',
+    'image',
 ]
 
 MIDDLEWARE = [
