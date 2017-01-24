@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'password_reset',
     'ArticleManage',
     'article',
+    'sorl.thumbnail',
     'image',
+
 ]
 
 MIDDLEWARE = [
@@ -147,9 +149,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-#MEDIA_URL = '/media/'
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
+
+#TEMPLATE_DEBUG = True
