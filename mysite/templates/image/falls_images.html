@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Images{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+<link rel="stylesheet" href="{% static 'css/mansory-style.css' %}" type="text/css" />
+<div id="my-gallery-container">
+  {% for image in images %}
+    <div class="falls_item h200" data-order="{{image.id}}">
+        <img src="{{ image.image.url }}">
+        <p>{{ image.title }}</p>
+    </div>
+  {% endfor %}
+
+</div>
+ 
+</div>
+ <script src='{% static "js/jquery.js" %}'></script>
+<script src="{% static 'js/mp.mansory.min.js' %}"></script>
+<script type="text/javascript">
+        jQuery(document).ready(function ( $ ) {
+            $("#my-gallery-container").mpmansory(
+                {
+                    childrenClass: 'falls_item', // default is a div
+                    columnClasses: 'falls_padding', //add classes to items
+                    breakpoints:{
+                        lg: 3,
+                        md: 4,
+                        sm: 6,
+                        xs: 12
+                    },
+                    distributeBy: { order: false, height: false, attr: 'data-order', attrOrder: 'desc' }, //default distribute by order, options => order: true/false, height: true/false, attr => 'data-order', attrOrder=> 'asc'/'desc'
+                    // onload: function (items) {
+                    //     //make somthing with items
+                    // }
+                }
+            );
+        });
+</script>
+ 
+{% endblock %}

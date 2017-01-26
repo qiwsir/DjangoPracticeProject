@@ -1,0 +1,41 @@
+#my-gallery-container {
+	background-color: #ededed;
+}
+
+.falls_item {
+	border: #c6c6c6 2px solid;
+	width: 100%;
+	background-color: white;
+	min-height: 100px;
+	padding: 5px;
+	margin: 10px 0px;
+	box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 2px;
+	border-radius: 4px;,
+	
+}
+
+.falls_item:hover {
+	opacity: 0.5;
+}
+
+.falls_item.h150{
+	width: 100%;
+	min-height: 150px;
+}
+
+.falls_item.h200{
+	width: 100%;
+	min-height: 200px;
+
+}
+
+.falls_item.h250{
+	width: 100%;
+	min-height: 200px;
+}
+.falls_padding{
+	padding: 10px 5px;
+}
+.falls_item img {
+    max-width: 100%;
+}
