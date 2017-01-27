@@ -41,4 +41,4 @@ def del_image(request):
 
 def falls_images(request):
 	images = Image.objects.all()
-	return render(request, 'image/falls_images.html', {"images": images})
+	return render(request, 'image/falls_images.html', {"images":images})
