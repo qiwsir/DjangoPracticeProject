@@ -1,0 +1,93 @@
+{% extends "ArticleManage/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}search articles{% endblock %}
+
+{% block content %}
+<div class="container">
+<div style="margin-left: auto;margin-right: auto; width: 90%" ><!--search-->
+    <form class="form-horizontal">
+    <div class="form-group">
+        <!--input id="word" type="text" class="form-control" placeholder="type the word you will search"-->
+        {{search_form.body}}
+    </div>
+    <div class="form-group text-center">
+        <input type="button" class="btn btn-default" onclick="search_articles()" value="SEARCH">
+    </div>
+    </form>
+</div>
+
+<hr>
+<!--
+<div class="col-md-10">
+    <table class="table table-hover">
+    	<tr>
+    		<td>序号</td>
+    		<td>标题</td>
+    		<td>栏目</td>
+    		<td>操作</td>
+    	</tr>
+    	{% for article in articles %}
+    	<tr id={{ forloop.counter }}>
+    		<td>{{ forloop.counter }}</td>
+    		<td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+    		<td>{{ article.column }}</td>
+    		<td>
+    		    <a name="edit" href="{% url 'article:redit_article' article.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+    		    <a nane="delete" href="javascript:" onclick="del_article(this, {{ article.id }})"><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>
+    		</td>
+    	</tr>
+    	{% endfor %}
+    </table>
+{% include "ArticleManage/article/pagination.html" %}
+</div> -->
+</div>
+<script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
+<script type="text/javascript" src="{% static 'js/layer.js'%}"></script>
+<script type="text/javascript">
+    function search_articles(){
+    	var word = $("#word").val();
+    	if (word){
+            $.ajax({
+            	url: "{% url 'article_list:search_articles' %}",
+            	type: "POST",
+            	dataType: 'json',
+            	data: {"word": word},
+            	success: function(e){},
+            });
+    	}
+
+
+    	alert(word);
+    }
+
+	function del_article(the, article_id){
+		var article_name = $(the).parents("tr").children("td").eq(1).text();
+		layer.open({
+			type: 1,
+			skin: "layui-layer-rim",
+			area: ["400px", "200px"],
+			title: "删除文章",
+			content: '<div class="text-center" style="margin-top:20px"><p>是否确定删除《'+article_name+'》</p></div>',
+			btn:['确定', '取消'],
+			yes: function(){
+				$.ajax({
+					url: '{% url "article:del_article" %}',
+					type:"POST",
+					data: {"article_id":article_id},
+					success: function(e){
+						if(e=="1"){
+							parent.location.reload();
+							layer.msg("has been deleted.");
+						}else{
+							layer.msg("删除失败");
+						}
+
+					},
+				})
+			},
+		});
+	}
+</script>
+{% endblock %}

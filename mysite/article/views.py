@@ -28,7 +28,7 @@ def list_articles(request, username=None):
 	else:
 		articles_title = ArticlePost.objects.all()
 
-	paginator = Paginator(articles_title, 2)    
+	paginator = Paginator(articles_title, 2)
 	page = request.GET.get('page')
 	try:
 		current_page = paginator.page(page)
@@ -54,7 +54,7 @@ def read_article(request, id, slug):
 	most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
 
 	#comments = article.comments.all()
-	
+
 	if request.method == "POST":
 		comment_form = CommentForm(data=request.POST)
 		if comment_form.is_valid():
@@ -72,7 +72,7 @@ def read_article(request, id, slug):
 		{"article":article, "total_views":total_views, \
 		"most_viewed": most_viewed, "comment_form":comment_form, "similar_articles":similar_articles})
 
-	
+
 def author_articles(request, username=None):
 	if username:
 		user = User.objects.get(username=username)
@@ -80,7 +80,7 @@ def author_articles(request, username=None):
 	else:
 		articles_title = ArticlePost.objects.all()
 
-	paginator = Paginator(articles_title, 2)    
+	paginator = Paginator(articles_title, 2)
 	page = request.GET.get('page')
 	try:
 		current_page = paginator.page(page)
