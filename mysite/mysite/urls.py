@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^article/', include('ArticleManage.urls', namespace='article', app_name="article")),
     url(r'^article/', include('article.urls', namespace='article_list', app_name="article_list")),
     url(r'^image/', include('image.urls', namespace='image', app_name='image')),
+    url(r'^search/', include('search.urls', namespace='search', app_name='search')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
