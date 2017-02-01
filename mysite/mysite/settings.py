@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',
     'blog',
     'account',
     'django.contrib.admin',
@@ -156,4 +157,10 @@ REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
 
+HAYSTACK_CONNECTIONS = {
+    'default':{
+        'ENGINE':'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.1.1:8983/solr/article'
+    }
+}
 #TEMPLATE_DEBUG = True

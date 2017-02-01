@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}haystack search{% endblock %}
+
+{% block content %}
+<div class="container">
+  {% if "query" in request.GET %}
+    <!-- <h3>Found {{ total_results }} result{{ total_results | pluralize}}</h3> -->
+    {% for result in results %}
+      {% with article=result.object %}
+      <h4><a href="{{ article.get_absolute_url }}">{{ article.title }}</h4>
+        {{ article.body | truncatewords:5}}
+      {% endwith %}
+    {% empty %}
+      <p>There are no results for your query.</p>
+    {% endfor %}
+    <p><a href="{% url 'search:hay_search_articles' %}">Search again</a></p>
+  {% else %}
+    <h1>Search for articles</h1>
+    <form action="." method="get">
+      {{ form.as_p }}
+      <input type="submit" value="Search">
+    </form>
+  {% endif %}
+</div>
+{% endblock %}

@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^article/', include('article.urls', namespace='article_list', app_name="article_list")),
     url(r'^image/', include('image.urls', namespace='image', app_name='image')),
     url(r'^search/', include('search.urls', namespace='search', app_name='search')),
+    url(r'^haysearch/', include('haystack.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

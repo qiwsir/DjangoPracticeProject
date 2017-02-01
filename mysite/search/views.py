@@ -8,6 +8,9 @@ from ArticleManage.models import ArticlePost
 
 from functools import reduce
 
+from .forms import HaySearchForm
+from haystack.query import SearchQuerySet
+
 @csrf_exempt
 def search_articles(request):
     if request.method == "POST":
@@ -18,3 +21,16 @@ def search_articles(request):
         #return JsonResponse({'results':serialized_result})
         return HttpResponse(serialized_result)
     return render(request, 'search/search_articles.html', {})
+
+
+def hay_search_articles(request):
+    form = HaySearchForm()
+    if "query" in request.GET:
+        form = HaySearchForm(request.GET)
+        if form.is_valid():
+            cd = form.cleaned_data
+            results = SearchQuerySet().models(ArticlePost).filter(content=cd['query']).load_all()
+            print(results)
+            #total_results = results.count()
+        return render(request, 'search/search.html', {'form':form, 'results':results})
+    return render(request, 'search/search.html', {'form':form})
