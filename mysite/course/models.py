@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from .fields import OrderField
 
 from slugify import slugify
 
@@ -42,9 +43,14 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, related_name='lesson')
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    order = OrderField(blank=True, for_fields=['course'])
+
+    class Meta:
+        ordering = ['order']
+
 
     def __str__(self):
-        return self.title
+        return '{}.{}'.format(self.order, self.title)
 
 class BaseItem(models.Model):
     user = models.ForeignKey(User, related_name='%(class)s_related')
@@ -76,3 +82,7 @@ class Content(models.Model):
     content_type = models.ForeignKey(ContentType, limit_choices_to={'model__in':('text', 'file', 'image', 'video')})
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey('content_type', 'object_id')
+    order = OrderField(blank=True, for_fields=['lesson'])
+
+    class Meta:
+        ordering = ['order']
