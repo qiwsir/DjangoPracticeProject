@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^image/', include('image.urls', namespace='image', app_name='image')),
     url(r'^search/', include('search.urls', namespace='search', app_name='search')),
     url(r'^haysearch/', include('haystack.urls')),
-    #url(r'^course', include('course.urls')),
+    url(r'^course/', include('course.urls', namespace='course', app_name='course')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
