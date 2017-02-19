@@ -7,23 +7,23 @@ from .fields import OrderField
 
 from slugify import slugify
 
-class Subject(models.Model):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
-
-    class Meta:
-        ordering = ('title',)
-
-    def save(self, *args, **kargs):
-        self.slug = slugify(self.title)
-        super(Subject, self).save(*args, **kargs)
-
-    def __str__(self):
-        return self.title
+# class Subject(models.Model):
+#     title = models.CharField(max_length=200)
+#     slug = models.SlugField(max_length=200, unique=True)
+#
+#     class Meta:
+#         ordering = ('title',)
+#
+#     def save(self, *args, **kargs):
+#         self.slug = slugify(self.title)
+#         super(Subject, self).save(*args, **kargs)
+#
+#     def __str__(self):
+#         return self.title
 
 class Course(models.Model):
     user = models.ForeignKey(User, related_name='courses_user')
-    subject = models.ForeignKey(Subject, related_name='courses')
+    #subject = models.ForeignKey(Subject, related_name='courses')
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField()
