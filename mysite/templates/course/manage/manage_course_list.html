@@ -1,0 +1,65 @@
+{% extends "ArticleManage/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}manage courses{% endblock %}
+
+{% block content %}
+<div class="container">
+{% include "ArticleManage/leftslider.html" %}
+<div class="col-md-10">
+    <div class='text-right'><button type="button" class="btn btn-primary">添加课程</button></div>
+    <table class="table table-hover" style="margin-top:10px">
+    	<tr>
+    		<td>序号</td>
+        <td>课程标题</td>
+        <td>发布日期</td>
+    		<td>操作</td>
+    	</tr>
+    	{% for course in courses %}
+    	<tr id={{ forloop.counter }}>
+    		<td>{{ forloop.counter }}</td>
+    		<td>{{ course.title }}</a></td>
+    		<td>{{ article.created }}</td>
+    		<td>
+    		    <a name="edit" href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+    		    <a nane="delete" href="javascript:" onclick="del_article(this, {{ article.id }})"><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>
+    		</td>
+    	</tr>
+    	{% endfor %}
+    </table>
+<!-- {% include "ArticleManage/article/pagination.html" %} -->
+</div>
+</div>
+<script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
+<script type="text/javascript" src="{% static 'js/layer.js'%}"></script>
+<script type="text/javascript">
+	function del_article(the, article_id){
+		var article_name = $(the).parents("tr").children("td").eq(1).text();
+		layer.open({
+			type: 1,
+			skin: "layui-layer-rim",
+			area: ["400px", "200px"],
+			title: "删除文章",
+			content: '<div class="text-center" style="margin-top:20px"><p>是否确定删除《'+article_name+'》</p></div>',
+			btn:['确定', '取消'],
+			yes: function(){
+				$.ajax({
+					url: '{% url "article:del_article" %}',
+					type:"POST",
+					data: {"article_id":article_id},
+					success: function(e){
+						if(e=="1"){
+							parent.location.reload();
+							layer.msg("has been deleted.");
+						}else{
+							layer.msg("删除失败");
+						}
+
+					},
+				})
+			},
+		});
+	}
+</script>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% load staticfiles %}    
+{% load staticfiles %}
 <div class="container">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
@@ -8,8 +8,7 @@
             <ul class="nav navbar-nav" role="tablist">
                 <li><a href="{% url 'article:article_column' %}">文章</a></li>
                 <li><a href="{% url 'image:list_images' %}">图片</a></li>
-                <li><a href="http://www.itdiffer.com">Git</a></li>
-                <li><a href="http://www.itdiffer.com">Linux</a></li>
+                <li><a href="{% url 'course:manage_course' %}">课程</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
                 {% if user.is_authenticated %}
@@ -22,6 +21,7 @@
                             <li><a href="{% url 'account:password_change' %}">修改密码</a></li>
                             <li><a href="{% url 'account:my_information' %}">个人信息</a></li>
                             <li><a href="{% url 'article:article_column' %}">文章管理</a></li>
+                            <li><a href="{% url 'course:manage_course' %}">课程管理</a></li>
                         </ul>
                     </div>
                 </li>
