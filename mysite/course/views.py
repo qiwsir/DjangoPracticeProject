@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 
 from django.core.urlresolvers import reverse_lazy
 
@@ -6,6 +6,8 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
 
 from django.contrib.auth.models import User
+
+from .forms import CreateCourseForm
 
 from braces.views import LoginRequiredMixin
 
@@ -42,4 +44,17 @@ class ManageCourseListView(UserCourseMixin, ListView):
 class CreateCourseView(UserCourseMixin, CreateView):
     fields = ['title', 'overview']
     template_name = 'course/manage/create_course.html'
-    success_url = reverse_lazy("course:manage_course")
+    #success_url = reverse_lazy("course:manage_course")
+
+    # def get(self, request, *args, **kargs):
+    #     form = CreateCourseForm()
+    #     return self.render_to_response({'form':form},)
+
+    def post(self, request, *args, **kargs):
+        form = CreateCourseForm(data=request.POST)
+        if form.is_valid():
+            new_course = form.save(commit=False)
+            new_course.user = self.request.user
+            new_course.save()
+            return redirect("course:manage_course")
+        return self.render_to_response({"form":form})

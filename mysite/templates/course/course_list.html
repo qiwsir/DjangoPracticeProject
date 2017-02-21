@@ -12,7 +12,6 @@
     {% for course in courses %}
     <tr id={{ forloop.counter }}>
       <td>{{ forloop.counter }}</td>
-      <td>{{ course.subject }}</td>
       <td>{{ course.title }}</td>
       <td>{{ course.user.username }}</td>
       <td>{{ course.created }}</td>
