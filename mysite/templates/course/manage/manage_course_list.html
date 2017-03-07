@@ -24,7 +24,7 @@
     		<td>
     		    <a name="edit" href="javascript:"><span class="glyphicon glyphicon-pencil"></span></a>
     		    <!-- <a nane="delete" href="{% url 'course:delete_course' course.id %}" ><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a> -->
-            <a nane="delete" href="javascript:" onclick="submit('{% url "course:delete_course" course.id %}')" ><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>
+            <a class="delete" nane="delete" href="{% url 'course:delete_course' course.id %}" ><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>
     		</td>
     	</tr>
     	{% endfor %}
@@ -32,16 +32,61 @@
 <!-- {% include "ArticleManage/article/pagination.html" %} -->
 </div>
 </div>
+<script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
 <script type="text/javascript">
-function submit(action_url) {
-    if(!confirm('确认要执行这个操作？')) {
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+$(document).ready(function() {
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    // This function must be customized
+
+    var onDelete = function(){
+        alert("delete it?");
+        $.post(this.href, function(data) {
+            if (data.result == "ok"){
+              window.location.reload();
+                //alert("data deleted successfully");
+            } else {
+                // handle error processed by server here
+                alert("smth goes wrong");
+            }
+        }).fail(function() {
+            // handle unexpected error here
+            alert("error");
+        });
         return false;
     }
-    var f = $('<form method="post"></form>');
-    var xsrf = $("{% csrf_token %}");
-    f.append(xsrf);
-    f.prop('action', action_url);
-    f.submit();
-}
+
+    $(".delete").click(onDelete);
+})
 </script>
 {% endblock %}

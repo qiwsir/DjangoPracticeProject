@@ -1,17 +1,14 @@
 from django.shortcuts import redirect
-
 from django.core.urlresolvers import reverse_lazy
-
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView, DeleteView
-
 from django.contrib.auth.models import User
-
 from .forms import CreateCourseForm
-
 from braces.views import LoginRequiredMixin
-
 from .models import Course
+
+from django.http import HttpResponse
+import json
 
 class AboutView(TemplateView):
     template_name = "course/about.html"
@@ -63,5 +60,10 @@ class DeleteCourseView(UserCourseMixin, DeleteView):
     #template_name = 'course/manage/delete_course_confirm.html'
     success_url = reverse_lazy("course:manage_course")
 
-    def get(self, request, *args, **kwargs):
-        return self.http_method_not_allowed(request, *args, **kwargs)
+    def dispatch(self, *args, **kwargs):
+        resp = super(DeleteCourseView, self).dispatch(*args, **kwargs)
+        if self.request.is_ajax():
+            response_data = {"result": "ok"}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+        else:
+            return resp
