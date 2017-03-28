@@ -10,6 +10,7 @@ class OrderField(models.PositiveIntegerField):
         if getattr(model_instance, self.attname) is None:
             try:
                 qs = self.model.objects.all()
+
                 if self.for_fields:
                     query = {field: getattr(model_instance, field) for field in self.for_fields}
                     qs = qs.filter(**query)

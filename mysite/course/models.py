@@ -39,50 +39,56 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
+def user_directory_path(instance, filename):
+    return "courses/user_{0}/{1}".format(instance.user.id, filename)
+
 class Lesson(models.Model):
+    user = models.ForeignKey(User, related_name='lesson_user')
     course = models.ForeignKey(Course, related_name='lesson')
     title = models.CharField(max_length=200)
+    video = models.FileField(upload_to=user_directory_path)
     description = models.TextField(blank=True)
+    attach = models.FileField(blank=True, upload_to=user_directory_path)
     order = OrderField(blank=True, for_fields=['course'])
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['order']
-
 
     def __str__(self):
         return '{}.{}'.format(self.order, self.title)
 
-class BaseItem(models.Model):
-    user = models.ForeignKey(User, related_name='%(class)s_related')
-    title = models.CharField(max_length=300)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-        ordering = ("-created",)
-
-    def __str__(self):
-        return self.title
-
-class Text(BaseItem):
-    content = models.TextField()
-
-class File(BaseItem):
-    file = models.FileField(upload_to='files')
-
-class Image(BaseItem):
-    image = models.ImageField(upload_to="images")
-
-class Video(BaseItem):
-    url = models.URLField()
-
-class Content(models.Model):
-    lesson = models.ForeignKey(Lesson, related_name='contents')
-    content_type = models.ForeignKey(ContentType, limit_choices_to={'model__in':('text', 'file', 'image', 'video')})
-    object_id = models.PositiveIntegerField()
-    item = GenericForeignKey('content_type', 'object_id')
-    order = OrderField(blank=True, for_fields=['lesson'])
-
-    class Meta:
-        ordering = ['order']
+# class BaseItem(models.Model):
+#     user = models.ForeignKey(User, related_name='%(class)s_related')
+#     title = models.CharField(max_length=300)
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+#
+#     class Meta:
+#         abstract = True
+#         ordering = ("-created",)
+#
+#     def __str__(self):
+#         return self.title
+#
+# class Text(BaseItem):
+#     content = models.TextField()
+#
+# class File(BaseItem):
+#     file = models.FileField(upload_to='files')
+#
+# class Image(BaseItem):
+#     image = models.ImageField(upload_to="images")
+#
+# class Video(BaseItem):
+#     url = models.URLField()
+#
+# class Content(models.Model):
+#     #lesson = models.ForeignKey(Lesson, related_name='contents')
+#     content_type = models.ForeignKey(ContentType, limit_choices_to={'model__in':('text', 'file', 'image', 'video')})
+#     object_id = models.PositiveIntegerField()
+#     item = GenericForeignKey('content_type', 'object_id')
+#     order = OrderField(blank=True, for_fields=['lesson'])
+#
+#     class Meta:
+#         ordering = ['order']

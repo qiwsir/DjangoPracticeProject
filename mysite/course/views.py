@@ -1,11 +1,14 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView, DeleteView
+
+from django.views.generic.base import View
+
 from django.contrib.auth.models import User
-from .forms import CreateCourseForm
+from .forms import CreateCourseForm, CreateLessonForm
 from braces.views import LoginRequiredMixin
-from .models import Course
+from .models import Course, Lesson
 
 from django.http import HttpResponse
 import json
@@ -19,10 +22,10 @@ class CourseListView(ListView):
     context_object_name = "courses"
     template_name = 'course/course_list.html'
 
-    def get_queryset(self):
-        qs = super(CourseListView, self).get_queryset()
+    #def get_queryset(self):
+    #    qs = super(CourseListView, self).get_queryset()
         #return qs.filter(user=self.request.user)
-        return qs.filter(user=User.objects.filter(username="lulaoshi"))
+        #return qs.filter(user=User.objects.filter(username="lulaoshi"))
 
 
 class UserMixin(object):
@@ -67,3 +70,23 @@ class DeleteCourseView(UserCourseMixin, DeleteView):
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         else:
             return resp
+
+class UserLessonMixin(UserMixin, LoginRequiredMixin):
+     model = Lesson
+     login_url = "/account/login/"
+
+class CreateLessonView(LoginRequiredMixin, View):
+    model = Lesson
+    login_url = "/account/login/"
+
+    def get(self, request):
+        form = CreateLessonForm(user=self.request.user)
+        return render(request, "course/manage/create_lesson.html", {"form":form})
+
+    def post(self, request, *args, **kwargs):
+        form = CreateLessonForm(self.request.user, request.POST, request.FILES)
+        if form.is_valid():
+            new_lesson = form.save(commit=False)
+            new_lesson.user = self.request.user
+            new_lesson.save()
+            return redirect("course:manage_course")
