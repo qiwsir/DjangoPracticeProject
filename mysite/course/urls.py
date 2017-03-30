@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 
 from .views import AboutView, CourseListView, ManageCourseListView, CreateCourseView, DeleteCourseView, CreateLessonView
 from .views import ListLessonsView
+from .views import DetailLessonView
 
 urlpatterns = [
     url(r'about/$', AboutView.as_view(), name="about"),
@@ -12,4 +13,5 @@ urlpatterns = [
     url(r'delete-course/(?P<pk>\d+)/$', DeleteCourseView.as_view(), name="delete_course"),
     url(r'create-lesson/$', CreateLessonView.as_view(), name="create_lesson"),
     url(r'list-lessons/(?P<course_id>\d+)/$', ListLessonsView.as_view(), name="list_lessons"),
+    url(r'detail-lesson/(?P<lesson_id>\d+)/$', DetailLessonView.as_view(), name="detail_lesson"),
 ]

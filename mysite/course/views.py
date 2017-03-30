@@ -99,3 +99,11 @@ class ListLessonsView(LoginRequiredMixin, TemplateResponseMixin, View):
     def get(self, request, course_id):
         course = get_object_or_404(Course, id=course_id)
         return self.render_to_response({'course':course})
+
+class DetailLessonView(LoginRequiredMixin, TemplateResponseMixin, View):
+    login_url = "/account/login/"
+    template_name = "course/manage/detail_lesson.html"
+
+    def get(self, request, lesson_id):
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        return self.render_to_response({"lesson":lesson})
