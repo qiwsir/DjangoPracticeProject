@@ -12,7 +12,7 @@
     {% for course in courses %}
     <tr id={{ forloop.counter }}>
       <td>{{ forloop.counter }}</td>
-      <td>{{ course.title }}</td>
+      <td><a href="{% url 'course:lessons_list' course.id %}">{{ course.title }}</a></td>
       <td>{{ course.user.username }}</td>
       <td>{{ course.created }}</td>
     </tr>
