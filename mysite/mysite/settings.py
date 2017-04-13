@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'image',
     'course',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
 
 ]
 
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
