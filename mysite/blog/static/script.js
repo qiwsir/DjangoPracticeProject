@@ -1,1 +1,0 @@
-alert("www.itdiffer.com")

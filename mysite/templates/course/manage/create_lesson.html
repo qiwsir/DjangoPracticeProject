@@ -1,9 +1,6 @@
-{% extends "ArticleManage/base.html" %}
-{% load staticfiles %}
+{% extends "article/base.html" %}
 {% block title %}create lesson{% endblock %}
 {% block content %}
-<div class="container">
-{% include "ArticleManage/leftslider.html" %}
 <div style="margin-left:200px;margin-top:10px;">
   <form enctype="multipart/form-data" action="." method="post" class="form-horizontal">{% csrf_token %}
     <div style="margin-top: 10px;">
@@ -31,5 +28,5 @@
     </div>
   </form>
 </div>
-</div>
 {% endblock %}
+

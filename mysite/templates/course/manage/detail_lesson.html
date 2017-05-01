@@ -1,20 +1,14 @@
-{% extends "ArticleManage/base.html" %}
-
-{% load staticfiles %}
-
-{% block title %}manage courses{% endblock %}
-
+{% extends "article/base.html" %}
+{% block title %}Lesson Detail{% endblock %}
 {% block content %}
-<div class="container">
-{% include "ArticleManage/leftslider.html" %}
-<div class="col-md-10">
+<div>
     <div class='text-center'>
-      <h1>{{ lesson.title }}</h1>
+        <h1>{{ lesson.title }}</h1>
         <p>讲师：{{ lesson.user.username }}</p>
     </div>
     <div>
       {% if lesson.video %}
-      <video src="{{ lesson.video.url }}" controls="controls" class="text-center"></video>
+      <video src="{{ lesson.video.url }}" controls="controls" class="text-center" width=100%></video>
       {% else %}
       <p class="text-center">There is not video lesson.</p>
       {% endif %}
@@ -30,6 +24,5 @@
       {% endif %}
     </div>
 </div>
-</div>
-
 {% endblock %}
+

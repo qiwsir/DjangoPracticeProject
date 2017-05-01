@@ -1,14 +1,11 @@
-{% extends "ArticleManage/base.html" %}
-{% load staticfiles %}
+{% extends "article/base.html" %}
 {% block title %}create course{% endblock %}
 {% block content %}
-<div class="container">
-{% include "ArticleManage/leftslider.html" %}
-<div style="margin-left:400px;margin-top:10px;">
+<div style="margin-left:100px;margin-top:10px;">
   <form action="." method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Create Course">
   </form>
 </div>
-</div>
 {% endblock %}
+

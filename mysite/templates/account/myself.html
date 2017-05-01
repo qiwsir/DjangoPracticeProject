@@ -1,8 +1,5 @@
 {% extends "base.html" %}
 
-{% load staticfiles %}
-
-
 {% block title %}my information{% endblock %}
 
 {% block content %}
@@ -46,35 +43,36 @@
                 <div class="col-md-4 text-right"><span>个人介绍:</span></div>
                 <div class="col-md-8 text-left">{{userinfo.aboutme}}</div>
             </div>
-            <a href="{% url 'account:edit_my_information' %}"><button class="btn btn-primary btn-lg">edit my information</button></a>
+            <div class="row">
+                <a href="{% url 'account:edit_my_information' %}"><button class="btn btn-primary btn-lg">edit my information</button></a>
+            </div>
         </div>
         <div class="col-md-6">
+            {% load staticfiles %}
             <div style="margin-right:100px">
                 {% if userinfo.photo %}
                 <img src="{{ userinfo.photo | striptags }}" class="img-circle" id="my_photo" name="user_face">
                 {% else %}
                 <img name="user_face" src="{% static 'images/newton.jpg' %}" class="img-circle" id="my_photo">
                 {% endif %}
-            </div>
-            <div style="margin-right:100px"><button class="btn btn-primary btn-lg" id="upload_image" onclick="upload_image_layer()">upload my photo</button></div>
+
+            <div style="margin-right:100px"><button class="btn btn-primary btn-lg" id="upload_image" onclick="upload_image_layer()">upload my photo</button></div> 
         </div>
     </div>
+
 </div>
 <script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
 <script type="text/javascript" src="{% static 'js/layer.js'%}"></script>
-
 <script>
 function upload_image_layer(){
-    var index = layer.open({
+    layer.open({
+        //content:"<p>hello world</p>",
         title:"上传头像",
         area: ['650px', '600px'],
         type:2,
-        closeBtn: 1,
-        //shadeClose: true,
-        content:'{% url "account:my_image" %}',
-        
+        content:"{% url 'account:my_image' %}",
     });
 }
 </script>
-{% endblock %}
 
+{% endblock %}

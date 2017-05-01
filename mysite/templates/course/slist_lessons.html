@@ -9,6 +9,7 @@
     <form action="." method="post" class="form-horizontal">{% csrf_token %}
       <input type="button" onclick="start_learn({{course.id}})" value="Try my best to learn the course">
     </form>
+
   </div>
   <table class="table table-hover" style="margin-top:10px">
     <tr>
@@ -29,6 +30,7 @@
     {% endfor %}
   </table>
 </div>
+
 <script src='{% static "js/jquery.js" %}'></script>
 <script src='{% static "js/csrf.js" %}'></script>
 <script>
@@ -68,4 +70,6 @@
       });
     }
 </script>
+
 {% endblock %}
+

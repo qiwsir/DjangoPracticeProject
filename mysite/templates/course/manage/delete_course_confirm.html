@@ -1,18 +1,11 @@
-{% extends "ArticleManage/base.html" %}
-
-{% load staticfiles %}
-
-{% block title %}manage courses{% endblock %}
-
+{% extends "article/base.html" %}
+{% block title %}delete course{% endblock %}
 {% block content %}
-<div class="container">
-{% include "ArticleManage/leftslider.html" %}
-<div class="col-md-10">
+<div">
     <form action="" method="post">{% csrf_token %}
     <p>Are you sure you want to delete "{{ object.title }}"?</p>
     <input type="submit" value="Confirm" />
 </form>
-<!-- {% include "ArticleManage/article/pagination.html" %} -->
-</div>
 </div>
 {% endblock %}
+

@@ -1,38 +1,34 @@
-{% extends "ArticleManage/base.html" %}
-
+{% extends "article/base.html" %}
 {% load staticfiles %}
-
 {% block title %}manage courses{% endblock %}
 
 {% block content %}
-<div class="container">
-{% include "ArticleManage/leftslider.html" %}
-<div class="col-md-10">
+<div>
+    <!--div class='text-right'><button type="button" class="btn btn-primary">添加课程</button></div-->
     <div class='text-right'><a href="{% url 'course:create_course' %}"><button type="button" class="btn btn-primary">添加课程</button></a></div>
     <table class="table table-hover" style="margin-top:10px">
     	<tr>
-    		<td>序号</td>
-        <td>课程标题</td>
-        <td>发布日期</td>
-    		<td>操作</td>
+            <td>序号</td>
+            <td>课程标题</td>
+            <td>发布日期</td>
+    	    <td>操作</td>
     	</tr>
     	{% for course in courses %}
     	<tr id={{ forloop.counter }}>
-    		<td>{{ forloop.counter }}</td>
-    		<td>{{ course.title }}</a></td>
-    		<td>{{ course.created|date:"Y-m-d" }}</td>
-    		<td>
-    		    <a name="edit" href="javascript:"><span class="glyphicon glyphicon-pencil"></span></a>
-    		    <!-- <a nane="delete" href="{% url 'course:delete_course' course.id %}" ><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a> -->
-            <a class="delete" nane="delete" href="{% url 'course:delete_course' course.id %}" ><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>
-            <a href="{% url 'course:list_lessons' course.id %}"><span class="glyphicon glyphicon-search" style="margin-left:20px;"></span></a>
-    		</td>
+    	    <td>{{ forloop.counter }}</td>
+    	    <td>{{ course.title }}</a></td>
+    	    <td>{{ course.created|date:"Y-m-d" }}</td>
+    	    <td>
+    	        <a name="edit" href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+                <!--a nane="delete" href="{% url 'course:delete_course' course.id %}" ><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a-->    	        
+                <a class="delete" nane="delete" href="{% url 'course:delete_course' course.id %}" ><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a>    	        
+    	        <a href="{% url 'course:list_lessons' course.id %}"><span class="glyphicon glyphicon-search" style="margin-left:20px;"></span></a>
+            </td>
     	</tr>
     	{% endfor %}
     </table>
-<!-- {% include "ArticleManage/article/pagination.html" %} -->
 </div>
-</div>
+
 <script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
 <script type="text/javascript">
 function getCookie(name) {
@@ -52,11 +48,8 @@ function getCookie(name) {
 }
 
 $(document).ready(function() {
-
     var csrftoken = getCookie('csrftoken');
-
     function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
     $.ajaxSetup({
@@ -68,20 +61,15 @@ $(document).ready(function() {
         }
     });
 
-    // This function must be customized
-
     var onDelete = function(){
         alert("delete it?");
         $.post(this.href, function(data) {
             if (data.result == "ok"){
               window.location.reload();
-                //alert("data deleted successfully");
             } else {
-                // handle error processed by server here
-                alert("smth goes wrong");
+                alert("sth wrong");
             }
         }).fail(function() {
-            // handle unexpected error here
             alert("error");
         });
         return false;
@@ -90,4 +78,6 @@ $(document).ready(function() {
     $(".delete").click(onDelete);
 })
 </script>
+
+
 {% endblock %}

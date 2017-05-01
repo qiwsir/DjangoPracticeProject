@@ -1,9 +1,5 @@
 {% extends "base.html" %}
-
-{% load staticfiles %}
-
 {% block title %}register user{% endblock %}
-
 {% block content %}
 <div class="row text-center vertical-middle-sm">
     <h1>Register</h1>
@@ -14,10 +10,11 @@
             <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label">Username</label>
             <div class="col-md-6 text-left">{{ form.username }}</div>
         </div>
-        <div class="form-group">
+<div class="form-group">
             <label for="{{ form.email.id_for_label }}" class="col-md-5 control-label">Email</label>
             <div class="col-md-6 text-left">{{ form.email }}</div>
         </div>
+
         <div class="form-group">
             <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label">Password</label>
             <div class="col-md-6 text-left">{{ form.password }}</div>
@@ -38,4 +35,3 @@
     </form>
 </div>
 {% endblock %}
-
