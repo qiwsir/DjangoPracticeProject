@@ -1,0 +1,18 @@
+{% load staticfiles %}    
+<div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.itdiffer.com"><img width="100px" src="{% static 'images/backlogo.png' %}"></a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav" role="tablist">
+                <li><a href="{% url 'article:article_column' %}">文章管理</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
+                <li><a href="{% url 'blog:blog_title' %}">网站首页</a></li>
+                <li><span>{{ user.username }}</li>
+                <li><a href="{% url 'account:user_logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
