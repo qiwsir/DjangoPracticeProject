@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login    #①
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from .models import UserProfile, UserInfo
 from .forms import LoginForm, RegistrationForm, UserProfileForm
 
 def user_login(request):    #②
@@ -46,6 +49,7 @@ def register(request):
             new_profile = userprofile_form.save(commit=False)
             new_profile.user = new_user
             new_profile.save()
+            UserInfo.objects.create(user=new_user)
             return HttpResponse("successfully")
         else:
             return HttpResponse("sorry, your can not register.")
@@ -53,3 +57,10 @@ def register(request):
         user_form = RegistrationForm()
         userprofile_form = UserProfileForm()
         return render(request, "account/register.html", {"form": user_form, "profile":userprofile_form})
+
+@login_required(login_url='/account/login/')    #②
+def myself(request):
+    user = User.objects.get(username=request.user.username)
+    userprofile = UserProfile.objects.get(user=user)
+    userinfo = UserInfo.objects.get(user=user)
+    return render(request, "account/myself.html", {"user":user, "userinfo":userinfo, "userprofile":userprofile})

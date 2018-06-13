@@ -125,3 +125,10 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_REDIRECT_URL = '/blog/'
+
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = "your_account@163.com"
+EMAIL_HOST_PASSWORD = "your password"
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "your_account@163.com"
