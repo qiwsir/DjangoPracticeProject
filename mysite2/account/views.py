@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login    #①
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.urls import reverse
+
 from .models import UserProfile, UserInfo
 from .forms import LoginForm, RegistrationForm, UserProfileForm, UserInfoForm, UserForm
 
@@ -51,7 +53,8 @@ def register(request):
             new_profile.user = new_user
             new_profile.save()
             UserInfo.objects.create(user=new_user)
-            return HttpResponse("successfully")
+            #return HttpResponse("successfully")
+            return HttpResponseRedirect(reverse("account:user_login"))
         else:
             return HttpResponse("sorry, your can not register.")
     else:

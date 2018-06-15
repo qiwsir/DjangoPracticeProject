@@ -6,7 +6,9 @@
 		</div>
 		<div>
 			<ul class="nav navbar-nav" role="navigation">
+				<li><a href="{% url 'home' %}">HOME</a></li>
 				<li><a href="{% url 'blog:blog_title' %}">BLOG</a></li>
+				<li><a href="{% url 'article:article_titles' %}">文章</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right" style="margin-right:10px">
 				{% if user.is_authenticated %}  
@@ -24,6 +26,7 @@
 				{% else %}
 				<li><a href="{% url 'account:user_login' %}">LOGIN</a></li>
 				{% endif %}
+                <li><a href="{% url 'account:user_register' %}">Sign up</a></li> 
 			</ul>
 		</div>
 	</nav>

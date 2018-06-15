@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %} articles {% endblock %}
+
+{% block content %}
+<div class="row text-center vertical-middle-sm">
+    <h1>阅读，丰富头脑，善化行为</h1>
+</div>
+<div class="container">
+    {% for article in articles %}
+    <div class="list-group">
+        <a href="{{article.get_url_path}}" class="list-group-item active">
+        	<h4 class="list-group-item-heading">{{article.title}}</h4>
+        	<p class="list-group-item-text">作者：{{article.author.username}}</p>  
+        	<p class="list-group-item-text">概要：{{article.body|slice:'70'| linebreaks}}</p> 
+        </a>
+    </div>
+    {% endfor %}
+{% include "paginator.html" %}   
+</div>
+{% endblock %}
