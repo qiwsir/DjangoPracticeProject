@@ -8,7 +8,7 @@
 <div class="container">
     <header>
         <h1>{{ article.title }}</h1>
-        <p>{{ article.author.username }}</p>
+        <p><a href="{% url 'article:author_articles' article.author.username %}">{{ article.author.username }}</a></p>
     </header>
 
     <link rel="stylesheet" href="{% static 'editor/css/editormd.preview.css' %}" />
