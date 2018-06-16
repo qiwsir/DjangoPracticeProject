@@ -6,6 +6,7 @@
 {% with total_likes=article.users_like.count users_like=article.users_like.all %}     
 
 <div class="container">
+<div class="col-md-9">
     <header>
         <h1>{{ article.title }}</h1>
         <p>
@@ -38,6 +39,21 @@
         {% endfor %}
     </div>
 </div>
+<!-- next is hot article -->
+<div class="col-md-3">
+        <p class="text-center"><h3>最受欢迎文章</h3></p>
+        <ol>
+            {% for article_rank in most_viewed %}
+            <li>
+                <a href="{{article_rank.get_url_path}}">{{ article_rank.title }}</a>
+            </li>
+            {% endfor %}
+        </ol>
+        
+</div>
+    
+</div>
+
 <script src='{% static "js/jquery.js" %}'></script>
 <script src='{% static "editor/lib/marked.min.js" %}'></script>
 <script src='{% static "editor/lib/prettify.min.js" %}'></script>
