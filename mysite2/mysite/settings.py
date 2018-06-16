@@ -133,3 +133,7 @@ EMAIL_HOST_PASSWORD = "your password"
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "your_account@163.com"
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
