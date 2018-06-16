@@ -41,3 +41,15 @@ class ArticlePost(models.Model):
 		
 	def get_url_path(self):
 		return reverse("article:list_article_detail", args=[self.id, self.slug])
+
+class Comment(models.Model):
+	article = models.ForeignKey(ArticlePost, on_delete=models.CASCADE, related_name="comments")    #①
+	commentator = models.CharField(max_length=90)
+	body = models.TextField()
+	created = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		ordering = ('-created',)    #②
+
+	def __str__(self):
+		return "Comment by {0} on {1}".format(self.commentator.username, self.article)

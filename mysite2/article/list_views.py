@@ -6,7 +6,8 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 
 from django.contrib.auth.models import User
-from .models import ArticleColumn, ArticlePost 
+from .models import ArticleColumn, ArticlePost, Comment
+from .forms import CommentForm
 
 import redis
 from django.conf import settings
@@ -69,18 +70,37 @@ def article_titles(request, username=None):
 # 	total_views = r.incr("article:{}:views".format(article.id))
 # 	return render(request, "article/list/article_detail.html", {"article":article, "total_views": total_views})
 
+# def article_detail(request, id, slug):
+# 	article = get_object_or_404(ArticlePost, id=id, slug=slug)
+# 	total_views = r.incr("article:{}:views".format(article.id))
+# 	r.zincrby('article_ranking', article.id, 1)    #①
+
+# 	article_ranking = r.zrange('article_ranking', 0, -1, desc=True)[:10]    #②
+# 	article_ranking_ids = [int(id) for id in article_ranking]
+# 	most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))    #③
+# 	most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))    #④
+	
+# 	return render(request, "article/list/article_detail.html", {"article":article, "total_views":total_views, "most_viewed": most_viewed})    #⑤
+
 def article_detail(request, id, slug):
 	article = get_object_or_404(ArticlePost, id=id, slug=slug)
 	total_views = r.incr("article:{}:views".format(article.id))
-	r.zincrby('article_ranking', article.id, 1)    #①
-
-	article_ranking = r.zrange('article_ranking', 0, -1, desc=True)[:10]    #②
+	r.zincrby('article_ranking', article.id, 1)
+	article_ranking = r.zrange('article_ranking', 0, -1, desc=True)[:10]
 	article_ranking_ids = [int(id) for id in article_ranking]
-	most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))    #③
-	most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))    #④
+	most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))
+	most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
 	
-	return render(request, "article/list/article_detail.html", {"article":article, "total_views":total_views, "most_viewed": most_viewed})    #⑤
+	if request.method == "POST":    #①
+		comment_form = CommentForm(data=request.POST)
+		if comment_form.is_valid():
+			new_comment = comment_form.save(commit=False)
+			new_comment.article = article
+			new_comment.save()
+	else:
+		comment_form = CommentForm()
 
+	return render(request, "article/list/article_detail.html", {"article":article, "total_views":total_views, "most_viewed": most_viewed, "comment_form":comment_form})  
 
 
 
