@@ -1,14 +1,19 @@
 {% extends "base.html" %}
-
 {% load staticfiles %}
-
-{% block title %}articles detail{% endblock %}
-
+{% block title %}{{ article.title }}{% endblock %}
 {% block content %}
+
+{% with total_likes=article.users_like.count users_like=article.users_like.all %}     
+
 <div class="container">
     <header>
         <h1>{{ article.title }}</h1>
-        <p><a href="{% url 'article:author_articles' article.author.username %}">{{ article.author.username }}</a></p>
+        <p>
+        <a href="{% url 'article:author_articles' article.author.username %}">
+            {{ article.author.username }}
+        </a>
+        <span style="margin-left:20px" class="glyphicon glyphicon-thumbs-up">{{ total_likes }}like{{ total_likes | pluralize }}</span>   
+    </p>    
     </header>
 
     <link rel="stylesheet" href="{% static 'editor/css/editormd.preview.css' %}" />
@@ -16,6 +21,20 @@
         <textarea id="append-test" style="display:none;">
 {{ article.body }}
 	    </textarea> 
+    </div>
+    <div>
+        <p class="text-center">
+            <a onclick="like_article({{article.id}}, 'like')" href="#"><span class="glyphicon glyphicon-thumbs-up">like</span></a>   
+            <a onclick="like_article({{article.id}}, 'unlike')" href="#"><span style="margin-left: 15px;" class="glyphicon glyphicon-thumbs-down">unlike</span></a>    
+        </p>
+    </div>
+    <div>
+        <p class="text-center"><strong>点赞本文的读者</strong></p>    
+        {% for user in article.users_like.all %}    
+        <p class="text-center">{{ user.username }}</p>
+        {% empty %}    
+        <p class="text-center">还没有人对此文章表态</p>
+        {% endfor %}
     </div>
 </div>
 <script src='{% static "js/jquery.js" %}'></script>
@@ -28,6 +47,8 @@
 <script src='{% static "editor/lib/jquery.flowchart.min.js" %}'></script>
 <script src='{% static "editor/editormd.js" %}'></script>
 
+<script type="text/javascript" src="{% static 'js/layer.js'%}"></script>  
+
 <script type="text/javascript">
 $(function(){
 	editormd.markdownToHTML("editormd-view", {
@@ -39,5 +60,23 @@ $(function(){
         sequenceDiagram : true,  // 默认不解析
     });
 });
+
+function like_article(id,action){   
+    $.ajax({
+        url: "{% url 'article:like_article' %}",
+        type: "POST",
+        data: {"id":id, "action":action},
+        success: function(e){
+            if(e=="1"){
+                layer.msg("感谢点赞");
+                window.location.reload();
+            }else{
+                layer.msg("我会继续努力");
+                window.location.reload();
+            }
+        },
+    });
+}
 </script>
+{% endwith %}    
 {% endblock %}
