@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'blog',
     'account',
     'article',
+    'image',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +139,7 @@ DEFAULT_FROM_EMAIL = "your_account@163.com"
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
