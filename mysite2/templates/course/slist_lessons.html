@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Lessons List{% endblock %}
+{% block content %}
+<div class="container">
+  <div class='text-center'>
+    <h1>{{ course.title }}</h1>
+    <p>课程内容列表</p>
+    <form action="." method="post" class="form-horizontal">{% csrf_token %}
+      <input type="button" onclick="start_learn({{course.id}})" value="Try my best to learn the course">
+    </form>
+  </div>
+  <table class="table table-hover" style="margin-top:10px">
+    <tr>
+      <td>序号</td>
+      <td>内容标题</td>
+      <td>概要</td>
+      <td>发布日期</td>
+    </tr>
+    {% for lesson in course.lesson.all %}
+    <tr id={{ forloop.counter }}>
+      <td>{{ forloop.counter }}</td>
+      <td><a href="{% url 'course:detail_lesson' lesson.id %}">{{ lesson.title }}</a></td>
+      <td>{{ lesson.description | slice:'70'|linebreaks }}</td>
+      <td>{{ lesson.created|date:"Y-m-d" }}</td>
+    </tr>
+    {% empty %}
+    <p>还没有发布具体内容，请等待。</p>
+    {% endfor %}
+  </table>
+</div>
+<script src='{% static "js/jquery.js" %}'></script>
+<script src='{% static "js/csrf.js" %}'></script>
+<script>
+    function start_learn(course_id){
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+               function getCookie(name) {
+                   var cookieValue = null;
+                   if (document.cookie && document.cookie != '') {
+                       var cookies = document.cookie.split(';');
+                       for (var i = 0; i < cookies.length; i++) {
+                           var cookie = jQuery.trim(cookies[i]);
+                           if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                               break;
+                           }
+                       }
+                   }
+                   return cookieValue;
+               }
+               if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                   xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+               }
+            }
+      });
+      $.ajax({
+        type: "POST",
+        url: "{% url 'course:lessons_list' course.id %}",
+        data: {'course_id':course_id},
+        success:function(e){
+          if(e=="ok"){
+            alert("You have enroll this course.")
+          }else{
+             alert("Sorry, There are some mistakes.")
+          }
+        },
+      });
+    }
+</script>
+{% endblock %}
