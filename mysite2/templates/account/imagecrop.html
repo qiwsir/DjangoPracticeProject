@@ -5,7 +5,7 @@
     <div class="thumbBox"></div>
     <div class="spinner" style="display: none"></div>
   </div>
-  <div class="action"> 
+  <div class="action">
     <!-- <input type="file" id="file" style=" width: 200px">-->
     <div class="new-contentarea tc"> <a href="javascript:void(0)" class="upload-img">
       <label for="upload-file">请先选择图片...</label>
@@ -23,7 +23,7 @@
 <script type="text/javascript" src="{% static 'js/cropbox-min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
 <script type="text/javascript">
- 
+
 $(window).load(function() {
 	var options =
 	{
@@ -39,7 +39,7 @@ $(window).load(function() {
 			options.imgSrc = e.target.result;
 			cropper = $('.imageBox').cropbox(options);
 			getImg();
-		}
+		};
 		reader.readAsDataURL(this.files[0]);
 		this.files = [];
 		//getImg();
@@ -52,7 +52,7 @@ $(window).load(function() {
 		data: {"img": img},
 		success: function(e){
             //location.href= "{% url 'account:my_information' %}"
-            if(e == "1"){        
+            if(e == "1"){
 				parent.location.reload();
 			} else {
 				alert("sorry, you are not lucky. the picutre can't been uploaded.")
@@ -67,11 +67,11 @@ $(window).load(function() {
 		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
 		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
 		}
-		
+
 	$(".imageBox").on("mouseup",function(){
  		getImg();
   		});
-		
+
 	$('#btnZoomIn').on('click', function(){
 		cropper.zoomIn();
 	})
