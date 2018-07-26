@@ -28,7 +28,7 @@
 ## 本书配套小程序
 
 小程序名称：跟老齐学
-<img src="https://itdiffer.com/files/default/2018/07-26/1629106b6785327504.jpg?" width=200 height=200 />
+<img src="./smallprogramming.jpg" width=200 height=200 />
 
 ## Python学习资源推荐：
 
