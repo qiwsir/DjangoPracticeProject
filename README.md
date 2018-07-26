@@ -28,6 +28,7 @@
 ## 本书配套小程序
 
 小程序名称：跟老齐学
+
 <img src="./smallprogramming.jpg" width=200 height=200 />
 
 ## Python学习资源推荐：
