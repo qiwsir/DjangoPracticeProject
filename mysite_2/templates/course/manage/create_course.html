@@ -1,0 +1,10 @@
+{% extends "article/base.html" %}
+{% block title %}create course{% endblock %}
+{% block content %}
+<div style="margin-left:100px;margin-top:10px;">
+    <form action="." method="post">{% csrf_token %} 
+        {{ form.as_p }}
+        <input type="submit" value="Create Course">
+    </form>
+</div>
+{% endblock %}

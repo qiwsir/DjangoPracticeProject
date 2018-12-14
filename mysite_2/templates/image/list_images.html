@@ -1,0 +1,101 @@
+{% extends "article/base.html" %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% block title %}images{% endblock %}
+{% block content %} 
+<div>
+    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="add_image()"> 添加图片</button>
+    <div style="margin-top:10px;"> 
+        <table class="table table-hover">
+            <tr> 
+                <td>序号</td>
+                <td>标题</td> 
+                <td>图片</td> 
+                <td>操作</td>
+            </tr>
+            {% for image in images %} 
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ image.title }}</td>
+                <!--td>{{ image.image }}</td-->
+                {% thumbnail image.image "100x100" crop="center" as im %}
+                <td><img src="{{im.url}}" width="{{ im.width }}" height="{{ im.height }}"></img></td> 
+                {% endthumbnail %}
+                <td><a nane="delete" href="javascript:" onclick="del_image(this, {{ image.id }})"><span class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a></td>
+            </tr>
+            {% empty %} 
+            <p>还没有图片，请点击上面的按钮添加图片</p> 
+            {% endfor %}
+        </table>  
+    </div>
+</div>
+
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/layer.js' %}"></script>
+<script type="text/javascript">
+function add_image(){
+        var index=layer.open({
+            type: 1,
+            skin: 'layui-layer-demo',
+            closeBtn: 0,
+            shift: 2,
+            shadeClose: true,
+            title: "Add Image",
+            area: ['600px', '440px'],
+            content: "<div style='padding:20px'><p>请新增扩展名是.jpg 或.png 的网上照片地址</p><form><div class='form-group'><label for='phototitle' class='col-sm-2 control-label'> 标题</label><div class='col-sm-10'><input id='phototitle' type='text' class='form-control' style='margin-bottom:5px'></div></div><div class='form-group'><label for='photourl' class='col-sm-2 control-label'>地址</label><div class='col-sm-10'><input id='photourl' style='margin-bottom:5px' type='text' class='form-control'></div></div><div class='form-group'><label for='description' class='col-sm-2 control-label'>描述</label> <div class='col-sm-10'><textarea class='form-control' style='margin-bottom:5px' row='2' id='photodescription'></textarea></div></div><div class='form-group'><div class='col-sm-offset-2 col-sm-10'><input id='newphoto' type='button' class='btn btn-default' value='Add It'></div></div></form></div>",
+            success: function(){ $("#newphoto").on('click', function(){
+                var title = $("#phototitle").val();
+                var url = $("#photourl").val();
+                var description = $("#photodescription").val();
+                var photo = {"title":title, "url":url, "description":description}; 
+                $.ajax({
+                    url: '{% url "image:upload_image" %}', 
+                    type: "POST",
+                    data: photo,
+                    success: function(e){
+                        var status = e['status'] 
+                        if(status =="1"){
+                            layer.close(index);
+                            window.location.reload(); 
+                        } else {
+                            layer.msg("图片无法获取，请更换图片"); 
+                        }
+                    }, 
+                });
+            }); 
+        },
+    }); 
+}
+
+function del_image(the, image_id){
+    var image_title = $(the).parents("tr").children("td").eq(1).text(); 
+    layer.open({
+        type: 1,
+        skin: "layui-layer-rim",
+        area: ["400px", "200px"],
+        title: "删除图片",
+        content: '<div class="text-center" style="margin-top:20px"><p>是否确定删除《'+image_title+'》</p> </div>',
+        btn:['确定', '取消'], 
+        yes: function(){
+            $.ajax({
+                url: '{% url "image:del_image" %}', 
+                type:"POST",
+                data: {"image_id":image_id}, 
+                success: function(e){
+                    var status = e['status'] 
+                    if(status=="1"){
+                        parent.location.reload();
+                        layer.msg("has been deleted."); 
+                    }else{
+                        layer.msg("删除失败");
+                    }
+                }, 
+            })
+        }, 
+    });
+}
+
+</script>
+{% endblock %}
+    

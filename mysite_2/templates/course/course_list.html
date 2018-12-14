@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Course List{% endblock %} 
+{% block content %}
+<div class="container">
+    <table class="table table-hover"> 
+        <tr>
+            <td>序号</td>
+            <td>课程标题</td>
+            <td>讲师</td>
+            <td>发布日期</td> 
+        </tr>
+        {% for course in courses %}
+        <tr id={{ forloop.counter }}>
+            <td>{{ forloop.counter }}</td> 
+            <td>{{ course.title }}</td>
+            <td>{{ course.user.username }}</td> 
+            <td>{{ course.created }}</td>
+        </tr>
+        {% endfor %} 
+    </table>
+</div>
+{% endblock %}

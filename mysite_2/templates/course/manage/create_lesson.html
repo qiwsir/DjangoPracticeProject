@@ -1,0 +1,32 @@
+{% extends "article/base.html" %}
+{% block title %}create lesson{% endblock %}
+{% block content %}
+<div style="margin-left:200px;margin-top:10px;">
+    <form enctype="multipart/form-data" action="." method="post" class="form-horizontal"> 
+        {% csrf_token %}
+        <div style="margin-top: 10px;">
+            <div class="col-md-2 text-left"><span>内容标题:</span></div>
+            <div class="col-md-10 text-left">{{form.title}}</div> 
+        </div>
+        <div style="margin-top: 20px;">
+            <div class="col-md-2 text-left"><span>所属课程:</span></div> 
+            <div class="col-md-10 text-left">{{form.course}}</div>
+        </div>
+        <div style="margin-top: 20px;">
+            <div class="col-md-2 text-left"><span>上传视频:</span></div>
+            <div class="col-md-10 text-left">{{form.video}}</div> 
+        </div>
+        <div style="margin-top: 20px;">
+            <div class="col-md-2 text-left"><span>视频描述:</span></div> 
+            <div class="col-md-10 text-left">{{form.description}}</div>
+        </div>
+        <div style="margin-top: 20px;">
+            <div class="col-md-2 text-left"><span>本课附件:</span></div>
+            <div class="col-md-10 text-left">{{form.attach}}</div> 
+        </div>
+        <div style="margin-top: 20px;" class="text-center"> 
+            <input type="submit" value="Create Lesson">
+        </div>
+  </form>
+</div>
+{% endblock %}

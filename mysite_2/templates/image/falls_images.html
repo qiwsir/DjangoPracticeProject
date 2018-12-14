@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Images{% endblock %} 
+{% block content %}
+<div class="container">
+    <link rel="stylesheet" href="{% static 'css/mansory-style.css' %}" type="text/css" /> 
+    <div id="my-gallery-container">
+        {% for image in images %}
+        <div class="falls_item h200" data-order="{{image.id}}">
+            <!--img src="{{ image.image.url }}"-->
+            <a href="javascript:void(0)" onclick="displayImage('{{image.user}}', '{{image.title}}','{{image.image.url}}', '{{image.description}}','{{request.get_host}}')"> 
+                <img src="{{ image.image.url }}">
+            </a>
+            <p>{{ image.title }}</p> 
+        </div>
+        {% endfor %} 
+    </div>
+</div>
+
+<script src='{% static "js/jquery.js" %}'></script> 
+<script src="{% static 'js/mp.mansory.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/layer.js'%}"></script>
+
+<script type="text/javascript"> 
+jQuery(document).ready(function($) {
+    $("#my-gallery-container").mpmansory( 
+        {
+            childrenClass: 'falls_item', // default is a div 
+            columnClasses: 'falls_padding', //add classes to items 
+            breakpoints:{
+                lg: 3,
+                md: 4,
+                sm: 6,
+                xs: 12
+            },
+            distributeBy: { order: false, height: false, attr: 'data-order', attrOrder: 'desc' }, //default distribute by order, options => order: true/false, height: true/false, attr => 'data-order', attrOrder=> 'asc'/'desc'
+        });
+    }); 
+
+function displayImage(user, title, url, description, host){ 
+    layer.open({
+        type: 1,
+        title: title,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['800px', '800px'], //宽高
+        content: '<div class="text-center"><img src="http://'+host+url+'"><p> 发 布 者 :'+user+'</p></div><div style="margin-left:10px;">'+description+'</div>', 
+    });
+}
+
+
+</script>
+{% endblock %}
