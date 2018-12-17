@@ -4,8 +4,8 @@
 
 本项目为《跟老齐学Python：Django实战》的相关代码。
 
-- mysite目录中是2018年第5次印刷（含）之前的项目，适合于Django1.x版本。
-- mysite2目录中是适合于Django2.x版本的项目。出版社应该会在本书第五次印刷的时候将内容修订为Django2.x版。
+- mysite目录中是适合于Django1.x版本的源码，对应于《跟老齐学Python：Django实战》的第一版。
+- mysite2目录中是适合于Django2.x版本的源码，对应于《跟老齐学Python：Django实战》的第二版。
 
 ## 相关资源：
 
