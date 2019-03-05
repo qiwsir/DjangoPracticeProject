@@ -25,16 +25,10 @@
 
 再次提醒：对入群收费1元，有异议者请不要加入。
 
-## 本书配套小程序
-
-小程序名称：跟老齐学
-
-<img src="./smallprogramming.jpg" width=200 height=200 />
-
 ## Python学习资源推荐：
 
 - 鄙人的图书《跟老齐学Python：轻松入门》
-- 鄙人的在线课程：[Python3入门和能力提升](https://www.cctalk.com/m/course/111302)
+- 鄙人的在线课程：[Python3入门和提升](https://itdiffer.com/course/47)
 - [《跟老齐学Python》系列图书](http://itdiffer.com/article/37)，各大网店和书店有售
 
-![django book](./python-book2.png)
+![django book](https://i.postimg.cc/hGT2MJWf/35503fm.jpg)
